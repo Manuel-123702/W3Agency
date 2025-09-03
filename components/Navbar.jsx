@@ -3,7 +3,9 @@ import React from "react";
 import { assets, BagIcon, BoxIcon, CartIcon, HomeIcon } from "@/assets/assets";
 import Link from "next/link"
 import { useAppContext } from "@/context/AppContext";
+import log from "../assets/log.png";
 import Image from "next/image";
+
 import { useClerk, UserButton } from "@clerk/nextjs";
 import ProductCard from "./ProductCard";
 
@@ -17,7 +19,9 @@ const Navbar = () => {
       <Image
         className="cursor-pointer w-28 md:w-32"
         onClick={() => router.push('/')}
-        src={assets.logo}
+        src={log}
+        width={150}
+
         alt="logo"
       />
       <div className="flex items-center gap-4 lg:gap-8 max-md:hidden">

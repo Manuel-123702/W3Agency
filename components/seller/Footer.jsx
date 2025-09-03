@@ -1,15 +1,16 @@
 import React from "react";
 import { assets } from "@/assets/assets";
 import Image from "next/image";
+import log from "@/assets/log.png";
 
 const Footer = () => {
   return (
     <div className="flex md:flex-row flex-col-reverse items-center justify-between text-left w-full px-10">
       <div className="flex items-center gap-4">
-        <Image className="hidden md:block" src={assets.logo} alt="logo" />
+        <Image className="hidden md:block" src={log} width={100} height={50} alt="logo" />
         <div className="hidden md:block h-7 w-px bg-gray-500/60"></div>
         <p className="py-4 text-center text-xs md:text-sm text-gray-500">
-          Copyright 2025 © greatstack.dev All Right Reserved.
+          Copyright 2025 © W3 Agency | All Right Reserved.
         </p>
       </div>
       <div className="flex items-center gap-3">
