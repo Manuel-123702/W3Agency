@@ -6,7 +6,7 @@ import User from "@/models/User";
 export const inngest = new Inngest({ id: "quickcart-next" });
 
 // Inngest Function to save user data to a database
-export const syncCreation = inngest.createFunction(
+export const syncUserCreation = inngest.createFunction(
     {
         id: 'sync-user-from-clerk'
     },
@@ -26,7 +26,7 @@ export const syncCreation = inngest.createFunction(
     }
 )
 // Inngest Function to update user data in database
-export const syncUpdation = inngest.createFunction(
+export const syncUserUpdation = inngest.createFunction(
     {
         id: 'update-user-from-clerk'
     },
@@ -36,8 +36,9 @@ export const syncUpdation = inngest.createFunction(
     async ({event})=> {
         const { id, first_name, last_name, email_addresses, image_url } = event.data;
         const userData = {
-            name: first_name + ' ' + last_name,
+            _id: id,
             email: email_addresses[0].email_address,
+            name: first_name + ' ' + last_name,
             imageUrl: image_url
         };
         await connectDB();
