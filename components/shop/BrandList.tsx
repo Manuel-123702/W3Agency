@@ -1,11 +1,11 @@
-import { BRANDS_QUERYResult } from "@/sanity.types";
+import { BRANDS_QUERY_RESULT } from "@/sanity.types";
 import React from "react";
 import Title from "../Title";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Label } from "../ui/label";
 
 interface Props {
-  brands: BRANDS_QUERYResult;
+  brands: BRANDS_QUERY_RESULT;
   selectedBrand?: string | null;
   setSelectedBrand: React.Dispatch<React.SetStateAction<string | null>>;
 }
@@ -13,7 +13,7 @@ interface Props {
 const BrandList = ({ brands, selectedBrand, setSelectedBrand }: Props) => {
   return (
     <div className="w-full bg-white p-5">
-      <Title className="text-base font-black">Brands</Title>
+      <Title className="text-base text-blue-600 font-black">Brands</Title>
       <RadioGroup value={selectedBrand || ""} className="mt-2 space-y-1">
         {brands?.map((brand) => (
           <div
@@ -24,11 +24,11 @@ const BrandList = ({ brands, selectedBrand, setSelectedBrand }: Props) => {
             <RadioGroupItem
               value={brand?.slug?.current as string}
               id={brand?.slug?.current}
-              className="rounded-sm"
+              className="rounded-sm border-violet-400 focus:ring-violet-400"
             />
             <Label
               htmlFor={brand?.slug?.current}
-              className={`${selectedBrand === brand?.slug?.current ? "font-semibold text-shop_dark_green" : "font-normal"}`}
+              className={`${selectedBrand === brand?.slug?.current ? "font-semibold text-violet-600" : "font-normal"}`}
             >
               {brand?.title}
             </Label>
@@ -37,7 +37,7 @@ const BrandList = ({ brands, selectedBrand, setSelectedBrand }: Props) => {
         {selectedBrand && (
           <button
             onClick={() => setSelectedBrand(null)}
-            className="text-sm font-medium mt-2 underline underline-offset-2 decoration-[1px] hover:text-shop_dark_green hoverEffect text-left"
+            className="text-sm font-medium mt-2 underline underline-offset-2 decoration-1 hover:text-blue-500 hoverEffect text-left"
           >
             Reset selection
           </button>

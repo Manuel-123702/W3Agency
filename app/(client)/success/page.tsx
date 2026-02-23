@@ -18,7 +18,7 @@ const SuccessPageContent = () => {
     }
   }, [orderNumber, resetCart]);
   return (
-    <div className="py-5 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center mx-4">
+    <div className="py-5 bg-linear-to-br from-gray-50 to-gray-100 flex items-center justify-center mx-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -29,7 +29,7 @@ const SuccessPageContent = () => {
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-          className="w-20 h-20 bg-black rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg"
+          className="w-20 h-20 bg-blue-400 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg"
         >
           <Check className="text-white w-10 h-10" />
         </motion.div>

@@ -14,7 +14,7 @@ const BlogPage = async () => {
   return (
     <div>
       <Container>
-        <Title>Blog page</Title>
+        <Title className="text-violet-500">Blog page</Title>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5 md:mt-10">
           {blogs?.map((blog) => (
             <div key={blog?._id} className="rounded-md overflow-hidden group">
@@ -33,17 +33,17 @@ const BlogPage = async () => {
                     {blog?.blogcategories?.map((item, index) => (
                       <p
                         key={index}
-                        className="font-semibold text-shop_dark_green tracking-wider"
+                        className="font-semibold text-shop_light_green tracking-wider"
                       >
                         {item?.title}
                       </p>
                     ))}
-                    <span className="absolute left-0 -bottom-1.5 bg-lightColor/30 inline-block w-full h-[2px] group-hover:bg-shop_dark_green hover:cursor-pointer hoverEffect" />
+                    <span className="absolute left-0 -bottom-1.5 bg-lightColor/30 inline-block w-full h-0.5 group-hover:bg-lightOrange hover:cursor-pointer hoverEffect" />
                   </div>
-                  <p className="flex items-center gap-1 text-lightColor relative group hover:cursor-pointer hover:text-shop_dark_green hoverEffect">
+                  <p className="flex items-center gap-1 text-lightColor relative group hover:cursor-pointer hover:text-lightOrange hoverEffect">
                     <Calendar size={15} />{" "}
                     {dayjs(blog.publishedAt).format("MMMM D, YYYY")}
-                    <span className="absolute left-0 -bottom-1.5 bg-lightColor/30 inline-block w-full h-[2px] group-hover:bg-shop_dark_green hoverEffect" />
+                    <span className="absolute left-0 -bottom-1.5 bg-lightColor/30 inline-block w-full h-0.5    group-hover:bg-lightOrange hoverEffect" />
                   </p>
                 </div>
                 <Link

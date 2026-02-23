@@ -2,12 +2,13 @@
 import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { emptyCart } from "@/images";
+import emptyCart from '@/images/empty_cart.jpg';
+
 import Image from "next/image";
 
 export default function EmptyCart() {
   return (
-    <div className="py-10 md:py-20 bg-gradient-to-b from-blue-50 to-white flex items-center justify-center p-4">
+    <div className="py-10 md:py-20 bg-linear-to-b from-blue-50 to-white flex items-center justify-center p-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

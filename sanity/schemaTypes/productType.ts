@@ -83,10 +83,10 @@ export const productType = defineType({
       type: "string",
       options: {
         list: [
-          { title: "Gadget", value: "gadget" },
-          { title: "Appliances", value: "appliances" },
-          { title: "Refrigerators", value: "refrigerators" },
-          { title: "Others", value: "others" },
+          { title: "Laptops", value: "laptops" },
+          { title: "Mobiles", value: "mobiles" },
+          { title: "Desktops", value: "desktops" },
+          { title: "Accessories", value: "accessories" },
         ],
       },
     }),
@@ -109,7 +109,7 @@ export const productType = defineType({
       const image = media && media[0];
       return {
         title: title,
-        subtitle: `$${subtitle}`,
+        subtitle: `${subtitle} FCFA`, 
         media: image,
       };
     },

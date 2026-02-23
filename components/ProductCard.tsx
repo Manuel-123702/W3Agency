@@ -12,7 +12,7 @@ import AddToCartButton from "./AddToCartButton";
 
 const ProductCard = ({ product }: { product: Product }) => {
   return (
-    <div className="text-sm border-[1px] rounded-md border-darkBlue/20 group bg-white">
+    <div className="text-sm border rounded-md border-darkBlue/20 group bg-white">
       <div className="relative group overflow-hidden bg-shop_light_bg">
         {product?.images && (
           <Link href={`/product/${product?.slug?.current}`}>
@@ -29,13 +29,13 @@ const ProductCard = ({ product }: { product: Product }) => {
         )}
         <ProductSideMenu product={product} />
         {product?.status === "sale" ? (
-          <p className="absolute top-2 left-2 z-10 text-xs border border-darkColor/50 px-2 rounded-full group-hover:border-lightGreen hover:text-shop_dark_green hoverEffect">
-            Sale!
+          <p className="absolute top-2 left-2 z-10 text-xs border bg-linear-to-r from-purple-400 to-blue-500 hover:from-pink-500 hover:to-purple-600 text-white font-bold py-1 px-3 rounded-full shadow-lg transform transition-all duration-500 ease-in-out hover:scale-110 hover:brightness-110 hover:animate-pulse active:animate-bounce">
+            Sale 
           </p>
         ) : (
           <Link
             href={"/deal"}
-            className="absolute top-2 left-2 z-10 border border-shop_orange/50 p-1 rounded-full group-hover:border-shop_orange hover:text-shop_dark_green hoverEffect"
+            className="absolute top-2 left-2 z-10 border border-shop_orange/50 p-1 rounded-full group-hover:border-shop_orange hover:text-blue-400 hoverEffect"
           >
             <Flame
               size={18}
@@ -58,9 +58,9 @@ const ProductCard = ({ product }: { product: Product }) => {
               <StarIcon
                 key={index}
                 className={
-                  index < 4 ? "text-shop_light_green" : " text-lightText"
+                  index < 4 ? "text-yellow-400" : " text-lightText"
                 }
-                fill={index < 4 ? "#93D991" : "#ababab"}
+                fill={index < 4 ? "#fbbf24" : "#ababab"}
               />
             ))}
           </div>
@@ -70,7 +70,7 @@ const ProductCard = ({ product }: { product: Product }) => {
         <div className="flex items-center gap-2.5">
           <p className="font-medium">In Stock</p>
           <p
-            className={`${product?.stock === 0 ? "text-red-600" : "text-shop_dark_green/80 font-semibold"}`}
+            className={`${product?.stock === 0 ? "text-red-600" : "text-blue-400 font-semibold"}`}
           >
             {(product?.stock as number) > 0 ? product?.stock : "unavailable"}
           </p>

@@ -71,7 +71,7 @@ const CartPage = () => {
   }, []);
   const handleResetCart = () => {
     const confirmed = window.confirm(
-      "Are you sure you want to reset your cart?"
+      "Are you sure you want to reset your cart?",
     );
     if (confirmed) {
       resetCart();
@@ -106,8 +106,8 @@ const CartPage = () => {
           {groupedItems?.length ? (
             <>
               <div className="flex items-center gap-2 py-5">
-                <ShoppingBag className="text-darkColor" />
-                <Title>Shopping Cart</Title>
+                <ShoppingBag className="text-violet-500" />
+                <Title className="text-violet-500">Shopping Cart</Title>
               </div>
               <div className="grid lg:grid-cols-3 md:gap-8">
                 <div className="lg:col-span-2 rounded-lg">
@@ -163,7 +163,7 @@ const CartPage = () => {
                                         className="relative top-0 right-0"
                                       />
                                     </TooltipTrigger>
-                                    <TooltipContent className="font-bold">
+                                    <TooltipContent className="font-bold bg-blue-300">
                                       Add to Favorite
                                     </TooltipContent>
                                   </Tooltip>
@@ -173,7 +173,7 @@ const CartPage = () => {
                                         onClick={() => {
                                           deleteCartProduct(product?._id);
                                           toast.success(
-                                            "Product deleted successfully!"
+                                            "Product deleted successfully!",
                                           );
                                         }}
                                         className="w-4 h-4 md:w-5 md:h-5 mr-1 text-gray-500 hover:text-red-600 hoverEffect"
@@ -199,8 +199,7 @@ const CartPage = () => {
                     })}
                     <Button
                       onClick={handleResetCart}
-                      className="m-5 font-semibold"
-                      variant="destructive"
+                      className="m-5 font-semibold bg-violet-600"
                     >
                       Reset Cart
                     </Button>
@@ -209,7 +208,7 @@ const CartPage = () => {
                 <div>
                   <div className="lg:col-span-1">
                     <div className="hidden md:inline-block w-full bg-white p-6 rounded-lg border">
-                      <h2 className="text-xl font-semibold mb-4">
+                      <h2 className="text-xl text-blue-400 font-semibold mb-4">
                         Order Summary
                       </h2>
                       <div className="space-y-4">
@@ -257,7 +256,7 @@ const CartPage = () => {
                                 <div
                                   key={address?._id}
                                   onClick={() => setSelectedAddress(address)}
-                                  className={`flex items-center space-x-2 mb-4 cursor-pointer ${selectedAddress?._id === address?._id && "text-shop_dark_green"}`}
+                                  className={`flex items-center space-x-2 mb-4 cursor-pointer ${selectedAddress?._id === address?._id && "text-blue-700"}`}
                                 >
                                   <RadioGroupItem
                                     value={address?._id.toString()}

@@ -42,16 +42,18 @@ const CategoryProducts = ({ categories, slug }: Props) => {
   };
   useEffect(() => {
     fetchProducts(currentSlug);
-  }, [router]);
+  }, [router, currentSlug]);
 
   return (
-    <div className="py-5 flex flex-col md:flex-row items-start gap-5">
-      <div className="flex flex-col md:min-w-40 border">
+    <div className="py-5 flex flex-col md:flex-row items-start gap-15">
+      <div className="flex flex-col md:min-w-40  border ">
         {categories?.map((item) => (
           <Button
             onClick={() => handleCategoryChange(item?.slug?.current as string)}
             key={item?._id}
-            className={`bg-transparent border-0 p-0  rounded-none text-darkColor shadow-none hover:bg-shop_orange hover:text-white font-semibold hoverEffect border-b last:border-b-0 transition-colors capitalize ${item?.slug?.current === currentSlug && "bg-shop_orange text-white border-shop_orange"}`}
+            className={`bg-transparent border-0 p-0 transition-colors rounded-none text-gray-700 shadow-none hover:bg-violet-300 hover:text-white font-semibold hoverEffect border-b last:border-b-0 capitalize
+                 ${item?.slug?.current === currentSlug && 
+                  "bg-blue-400 text-white hover:bg-blue-500"}`}
           >
             <p className="w-full text-left px-2">{item?.title}</p>
           </Button>
@@ -66,7 +68,7 @@ const CategoryProducts = ({ categories, slug }: Props) => {
             </div>
           </div>
         ) : products?.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
             {products?.map((product: Product) => (
               <AnimatePresence key={product._id}>
                 <motion.div>

@@ -45,24 +45,29 @@ export async function createCheckoutSession(
       invoice_creation: {
         enabled: true,
       },
-      success_url: `${
-        process.env.NEXT_PUBLIC_BASE_URL
-      }/success?session_id={CHECKOUT_SESSION_ID}&orderNumber=${metadata.orderNumber}`,
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL
+        }/success?session_id={CHECKOUT_SESSION_ID}&orderNumber=${metadata.orderNumber}`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cart`,
       line_items: items?.map((item) => ({
         price_data: {
-          currency: "USD",
-          unit_amount: Math.round(item?.product?.price! * 100),
+          unit_amount: item?.product?.price ?? 0,
+          currency: "FCFA",
+
           product_data: {
             name: item?.product?.name || "Unknown Product",
             description: item?.product?.description,
-            metadata: { id: item?.product?._id },
+
+            metadata: {
+              id: item?.product?._id,   // ✅ THIS is valid
+            },
+
             images:
               item?.product?.images && item?.product?.images?.length > 0
                 ? [urlFor(item?.product?.images[0]).url()]
                 : undefined,
           },
         },
+
         quantity: item?.quantity,
       })),
     };

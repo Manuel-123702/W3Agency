@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
 import PriceFormatter from "./PriceFormatter";
-import AddToCartButton from "./AddToCartButton";
+import AddToCartButton from "./AddToCartButton";   
 
 const WishListProducts = () => {
   const [visibleProducts, setVisibleProducts] = useState(7);
@@ -91,7 +91,7 @@ const WishListProducts = () => {
                       <td
                         className={`p-2 w-24 ${
                           (product?.stock as number) > 0
-                            ? "text-green-600"
+                            ? "text-blue-600"
                             : "text-red-600"
                         } font-medium text-sm hidden md:table-cell`}
                       >
@@ -132,8 +132,7 @@ const WishListProducts = () => {
           {favoriteProduct?.length > 0 && (
             <Button
               onClick={handleResetWishlist}
-              className="mb-5 font-semibold"
-              variant="destructive"
+              className="mb-5 font-semibold bg-violet-400"
               size="lg"
             >
               Reset Wishlist
@@ -141,7 +140,7 @@ const WishListProducts = () => {
           )}
         </>
       ) : (
-        <div className="flex min-h-[400px] flex-col items-center justify-center space-y-6 px-4 text-center">
+        <div className="flex min-h-100 flex-col items-center justify-center space-y-6 px-4 text-center">
           <div className="relative mb-4">
             <div className="absolute -top-1 -right-1 h-4 w-4 animate-ping rounded-full bg-muted-foreground/20" />
             <Heart

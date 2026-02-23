@@ -12,20 +12,42 @@ const HomeTabbar = ({ selectedTab, onTabSelect }: Props) => {
       <div className="flex items-center gap-1.5 text-sm font-semibold">
         <div className="flex items-center gap-1.5 md:gap-3">
           {productType?.map((item) => (
-            <button
-              onClick={() => onTabSelect(item?.title)}
-              key={item?.title}
-              className={`border border-shop_light_green/30 px-4 py-1.5 md:px-6 md:py-2 rounded-full hover:bg-shop_light_green hover:border-shop_light_green hover:text-white hoverEffect ${selectedTab === item?.title ? "bg-shop_light_green text-white border-shop_light_green" : "bg-shop_light_green/10"}`}
-            >
-              {item?.title}
-            </button>
+
+
+<button  onClick={() => onTabSelect(item?.title)}
+              key={item?.title} className={`bg-gradient-to-r from-purple-400 to-blue-500 hover:from-pink-500 hover:to-purple-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transform transition-all duration-500 ease-in-out hover:scale-110 hover:brightness-110 hover:animate-pulse active:animate-bounce ${selectedTab === item?.title ? "bg-gradient-to-r from-indigo-500 via-purple-500  to-pink-500 text-white" : "bg-gradient-to-r from-purple-500 via-blue-500 to-pink-500 text-white"}`}>
+  {item?.title}
+</button>
+
           ))}
         </div>
       </div>
       <Link
         href={"/shop"}
-        className="border border-darkColor px-4 py-1 rounded-full hover:bg-shop_light_green hover:text-white hover:border-shop_light_green hoverEffect"
-      >
+        className="
+    relative z-30 overflow-hidden
+
+    px-8 py-4
+    rounded-md
+    bg-violet-400
+    text-white text-2xl font-semibold
+
+    transition-all duration-700
+
+after:content-['']
+    after:absolute
+    after:bottom-0 after:left-5
+    after:h-1 after:w-1
+    after:translate-y-full
+    after:rounded-md
+    after:bg-blue-800
+    after:-z-10
+
+    after:transition-all after:duration-700
+    hover:after:scale-[300]
+    [text-shadow:3px_5px_2px_#ddd6fe]
+    hover:[text-shadow:2px_2px_2px_#fda4af]
+  "      >
         See all
       </Link>
     </div>

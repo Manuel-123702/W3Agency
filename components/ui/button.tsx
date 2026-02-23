@@ -10,9 +10,9 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-shop_btn_dark_green/80 text-white font-semibold shadow hover:bg-shop_btn_dark_green hoverEffect",
+          "bg-blue-300 text-white font-semibold shadow hover:bg-blue-600 hoverEffect",
         destructive:
-          "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40",
+          "bg-chart-4 text-white shadow-xs hover:bg-chart-4/90 focus-visible:ring-chart-4/20 dark:focus-visible:ring-chart-4/40",
         outline:
           "border border-input bg-background shadow-xs hover:bg-accent hover:text-accent-foreground",
         secondary:

@@ -18,21 +18,26 @@ const OrdersPage = async () => {
   }
 
   const orders = await getMyOrders(userId);
-
+  console.log(orders);
   return (
     <div>
-      <Container className="py-10">
+      <Container className="py-10 ">
         {orders?.length ? (
-          <Card className="w-full">
+          <Card className="w-full bg-linear-to-r from-violet-100 to-blue-100">
             <CardHeader>
-              <CardTitle>Order List</CardTitle>
+              <CardTitle className="text-violet-500 font-bold text-xl">
+                Order List
+              </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="text-shop_light_green">
+              Orders are listed in the order they were placed, with the most
+              recent orders appearing first. Click on an order to view more
+              details.
               <ScrollArea>
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="w-[100px] md:w-auto">
+                      <TableHead className="w-25 md:w-auto">
                         Order Number
                       </TableHead>
                       <TableHead className="hidden md:table-cell">

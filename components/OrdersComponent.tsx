@@ -1,6 +1,6 @@
 "use client";
 
-import { MY_ORDERS_QUERYResult } from "@/sanity.types";
+import { MY_ORDERS_QUERY_RESULT } from "@/sanity.types";
 import { TableBody, TableCell, TableRow } from "./ui/table";
 import {
   Tooltip,
@@ -15,9 +15,9 @@ import { useState } from "react";
 import OrderDetailDialog from "./OrderDetailDialog";
 import toast from "react-hot-toast";
 
-const OrdersComponent = ({ orders }: { orders: MY_ORDERS_QUERYResult }) => {
+const OrdersComponent = ({ orders }: { orders: MY_ORDERS_QUERY_RESULT }) => {
   const [selectedOrder, setSelectedOrder] = useState<
-    MY_ORDERS_QUERYResult[number] | null
+    MY_ORDERS_QUERY_RESULT[number] | null
   >(null);
   const handleDelete = () => {
     toast.error("Delete method applied for Admin");
@@ -55,8 +55,8 @@ const OrdersComponent = ({ orders }: { orders: MY_ORDERS_QUERYResult }) => {
                       <span
                         className={`px-2 py-1 rounded-full text-xs font-semibold ${
                           order.status === "paid"
-                            ? "bg-green-100 text-green-800"
-                            : "bg-yellow-100 text-yellow-800"
+                            ? "bg-shop_btn_dark_green text-lightOrange"
+                            : "bg-shop_light_pink text-shop_dark_green"
                         }`}
                       >
                         {order?.status.charAt(0).toUpperCase() +

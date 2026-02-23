@@ -34,7 +34,7 @@ export const blogType = defineType({
       name: "blogcategories",
       type: "array",
       of: [
-        defineArrayMember({ type: "reference", to: { type: "blogcategory" } }),
+        defineArrayMember({ type: "reference", to: { type: "blogCategory" } }),
       ],
     }),
     defineField({

@@ -14,17 +14,17 @@ export const quickLinksData = [
   { title: "Help", href: "/help" },
 ];
 export const categoriesData = [
+  { title: "DELL", href: "dell" },
+  { title: "HP", href: "hp" },
+  { title: "LENOVO", href: "lenovo" },
+  { title: "MacBook", href: "macbook" },
+  { title: "DeskTops", href: "desktops" },
   { title: "Mobiles", href: "mobiles" },
-  { title: "Appliances", href: "appliances" },
-  { title: "Smartphones", href: "smartphones" },
-  { title: "Air Conditioners", href: "air-conditioners" },
-  { title: "Washing Machine", href: "washing-machine" },
-  { title: "Kitchen Appliances", href: "kitchen-appliances" },
-  { title: "gadget accessories", href: "gadget-accessories" },
+  { title: "Accessories", href: "accessories" },
 ];
 export const productType = [
-  { title: "Gadget", value: "gadget" },
-  { title: "Appliances", value: "appliances" },
-  { title: "Refrigerators", value: "refrigerators" },
-  { title: "Others", value: "others" },
+  { title: "Laptops", value: "laptops" },
+  { title: "Mobiles", value: "mobiles" },
+  { title: "Desktops", value: "desktops" },
+  { title: "Accessories", value: "accessories" },
 ];

@@ -16,12 +16,11 @@ const FavoriteButton = ({
   const { favoriteProduct, addToFavorite } = useStore();
   const [existingProduct, setExistingProduct] = useState<Product | null>(null);
   useEffect(() => {
-    const availableItem = favoriteProduct.find(
-      (item) => item?._id === product?._id
+    const availableProduct = favoriteProduct?.find(
+      (item) => item?._id === product?._id,
     );
-    setExistingProduct(availableItem || null);
+    setExistingProduct(availableProduct || null);
   }, [product, favoriteProduct]);
-
   const handleFavorite = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.preventDefault();
     if (product?._id) {
@@ -29,32 +28,37 @@ const FavoriteButton = ({
         toast.success(
           existingProduct
             ? "Product removed successfully!"
-            : "Product added successfully!"
+            : "Product added successfully!",
         );
       });
     }
   };
+
   return (
     <>
       {!showProduct ? (
-        <Link href={"/wishlist"} className="group relative">
-          <Heart className="w-5 h-5 hover:text-shop_light_green hoverEffect" />
-          <span className="absolute -top-1 -right-1 bg-shop_dark_green text-white h-3.5 w-3.5 rounded-full text-xs font-semibold flex items-center justify-center">
-            {favoriteProduct?.length ? favoriteProduct?.length : 0}
+        <Link href="/wishlist" className="group relative">
+          <Heart className="w-5 h-5 text-violet-700 hover:text-blue-700 hoverEffect" />
+          <span className="absolute -top-2 -right-2 bg-violet-700 text-white w-3.5 h-3.5 rounded-full text-xs font-semibold flex items-center justify-center">
+            {favoriteProduct?.length ? favoriteProduct.length : 0}
           </span>
         </Link>
       ) : (
         <button
           onClick={handleFavorite}
-          className="group relative hover:text-shop_light_green hoverEffect border border-shop_light_green/80 hover:border-shop_light_green p-1.5 rounded-sm"
+          className="group relative hover:text-blue-300 hoverEffect border border-blue-200 hover:border-violet-300 p-1.5 rounded-sm"
         >
           {existingProduct ? (
             <Heart
-              fill="#3b9c3c"
-              className="text-shop_light_green/80 group-hover:text-shop_light_green hoverEffect mt-.5 w-5 h-5"
+              fill="#1D4ED8"
+              className="text-violet-500 group-hover:text-blue-700 
+            hoverEffect mt-.5 w-5 h-5"
             />
           ) : (
-            <Heart className="text-shop_light_green/80 group-hover:text-shop_light_green hoverEffect mt-.5 w-5 h-5" />
+            <Heart
+              className="text-violet-500 group-hover:text-blue-700 
+            hoverEffect mt-.5 w-5 h-5"
+            />
           )}
         </button>
       )}

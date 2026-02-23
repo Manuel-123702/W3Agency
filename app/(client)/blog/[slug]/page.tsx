@@ -1,6 +1,5 @@
 import Container from "@/components/Container";
 import Title from "@/components/Title";
-import { SINGLE_BLOG_QUERYResult } from "@/sanity.types";
 import { urlFor } from "@/sanity/lib/image";
 import {
   getBlogCategories,
@@ -21,7 +20,8 @@ const SingleBlogPage = async ({
   params: Promise<{ slug: string }>;
 }) => {
   const { slug } = await params;
-  const blog: SINGLE_BLOG_QUERYResult = await getSingleBlog(slug);
+  const blogResult = await getSingleBlog(slug);
+  const blog = Array.isArray(blogResult) ? blogResult[0] : blogResult;
   if (!blog) return notFound();
 
   return (
@@ -34,32 +34,32 @@ const SingleBlogPage = async ({
               alt={blog.title || "Blog Image"}
               width={800}
               height={800}
-              className="w-full max-h-[500px] object-cover rounded-lg"
+              className="w-full max-h-125 object-cover rounded-lg"
             />
           )}
           <div>
             <div className="text-xs flex items-center gap-5 my-7">
               <div className="flex items-center relative group cursor-pointer">
                 {blog?.blogcategories?.map(
-                  (item: { title: string }, index: number) => (
+                  (item: { title?: string | null }, index: number) => (
                     <p
                       key={index}
                       className="font-semibold text-shop_dark_green tracking-wider"
                     >
                       {item?.title}
                     </p>
-                  )
+                  ),
                 )}
-                <span className="absolute left-0 -bottom-1.5 bg-lightColor/30 inline-block w-full h-[2px] group-hover:bg-shop_dark_green hover:cursor-pointer hoverEffect" />
+                <span className="absolute left-0 -bottom-1.5 bg-lightColor/30 inline-block w-full h-0.5 group-hover:bg-shop_dark_green hover:cursor-pointer hoverEffect" />
               </div>
               <p className="flex items-center gap-1 text-lightColor relative group hover:cursor-pointer hover:text-shop_dark_green hoverEffect">
                 <Pencil size={15} /> {blog?.author?.name}
-                <span className="absolute left-0 -bottom-1.5 bg-lightColor/30 inline-block w-full h-[2px] group-hover:bg-shop_dark_green hoverEffect" />
+                <span className="absolute left-0 -bottom-1.5 bg-lightColor/30 inline-block w-full h-0.5 group-hover:bg-shop_dark_green hoverEffect" />
               </p>
               <p className="flex items-center gap-1 text-lightColor relative group hover:cursor-pointer hover:text-shop_dark_green hoverEffect">
                 <Calendar size={15} />{" "}
                 {dayjs(blog.publishedAt).format("MMMM D, YYYY")}
-                <span className="absolute left-0 -bottom-1.5 bg-lightColor/30 inline-block w-full h-[2px] group-hover:bg-shop_dark_green hoverEffect" />
+                <span className="absolute left-0 -bottom-1.5 bg-lightColor/30 inline-block w-full h-0.5 group-hover:bg-shop_dark_green hoverEffect" />
               </p>
             </div>
             <h2 className="text-2xl font-bold my-5">{blog?.title}</h2>
@@ -130,16 +130,20 @@ const SingleBlogPage = async ({
                         listItem: {
                           bullet: ({ children }) => {
                             return (
-                              <li className="my-2 pl-2 has-[br]:mb-8">
-                                {children}
-                              </li>
+                              <ul>
+                                <li className="my-2 pl-2 has-[br]:mb-8">
+                                  {children}
+                                </li>
+                              </ul>
                             );
                           },
                           number: ({ children }) => {
                             return (
-                              <li className="my-2 pl-2 has-[br]:mb-8">
-                                {children}
-                              </li>
+                              <ol>
+                                <li className="my-2 pl-2 has-[br]:mb-8">
+                                  {children}
+                                </li>
+                              </ol>
                             );
                           },
                         },
@@ -162,7 +166,7 @@ const SingleBlogPage = async ({
                             return (
                               <Link
                                 href={value.href}
-                                className="font-medium text-gray-950 underline decoration-gray-400 underline-offset-4 data-[hover]:decoration-gray-600"
+                                className="font-medium text-gray-950 underline decoration-gray-400 underline-offset-4 data-hover:decoration-gray-600"
                               >
                                 {children}
                               </Link>
@@ -198,7 +202,7 @@ const BlogLeft = async ({ slug }: { slug: string }) => {
   return (
     <div>
       <div className="border border-lightColor p-5 rounded-md">
-        <Title className="text-base">Blog Categories</Title>
+        <Title className="text-base text-violet-500">Blog Categories</Title>
         <div className="space-y-2 mt-2">
           {categories?.map(({ blogcategories }, index) => (
             <div
@@ -206,13 +210,13 @@ const BlogLeft = async ({ slug }: { slug: string }) => {
               className="text-lightColor flex items-center justify-between text-sm font-medium"
             >
               <p>{blogcategories[0]?.title}</p>
-              <p className="text-darkColor font-semibold">{`(1)`}</p>
+              <p className="text-darkColor font-semibold">{`(3)`}</p>
             </div>
           ))}
         </div>
       </div>
       <div className="border border-lightColor p-5 rounded-md mt-10">
-        <Title className="text-base">Latest Blogs</Title>
+        <Title className="text-base text-violet-500">Latest Blogs</Title>
         <div className="space-y-4 mt-4">
           {blogs?.map((blog: Blog, index: number) => (
             <Link
@@ -226,7 +230,7 @@ const BlogLeft = async ({ slug }: { slug: string }) => {
                   alt="blogImage"
                   width={100}
                   height={100}
-                  className="w-16 h-16 rounded-full object-cover border-[1px] border-shop_dark_green/10 group-hover:border-shop_dark_green hoverEffect"
+                  className="w-16 h-16 rounded-full object-cover border border-shop_dark_green group-hover:border-shop_light_green hoverEffect"
                 />
               )}
               <p className="line-clamp-2 text-sm text-lightColor group-hover:text-shop_dark_green hoverEffect">

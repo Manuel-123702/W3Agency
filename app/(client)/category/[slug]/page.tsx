@@ -12,11 +12,11 @@ const CategoryPage = async ({
   const categories = await getCategories();
   const { slug } = await params;
   return (
-    <div className="py-10">
+    <div className="pb-10">
       <Container>
         <Title>
           Products by Category:{" "}
-          <span className="font-bold text-green-600 capitalize tracking-wide">
+          <span className="font-bold text-violet-400 capitalize tracking-wide">
             {slug && slug}
           </span>
         </Title>

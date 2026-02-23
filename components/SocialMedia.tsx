@@ -1,4 +1,4 @@
-import { Facebook, Github, Linkedin, Slack, Youtube } from "lucide-react";
+import { Facebook, Github, Instagram, Youtube } from "lucide-react";
 import React from "react";
 import {
   Tooltip,
@@ -8,7 +8,8 @@ import {
 } from "./ui/tooltip";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-interface Props {
+import { FaWhatsapp } from "react-icons/fa";
+interface props {
   className?: string;
   iconClassName?: string;
   tooltipClassName?: string;
@@ -17,34 +18,34 @@ const socialLink = [
   {
     title: "Youtube",
     href: "https://www.youtube.com/@reactjsBD",
-    icon: <Youtube className="w-5 h-5" />,
+    Icon: <Youtube className="text-red-500 w-5 h-5" />,
   },
   {
     title: "Github",
     href: "https://www.youtube.com/@reactjsBD",
-    icon: <Github className="w-5 h-5" />,
+    Icon: <Github className="w-5 h-5" />,
   },
   {
-    title: "Linkedin",
-    href: "https://www.youtube.com/@reactjsBD",
-    icon: <Linkedin className="w-5 h-5" />,
+    title: "WhatsApp",
+    href: "https://api.whatsapp.com/send?phone=650921917&text=Hello,%20I%20visited%20your%20website%20and%20I%E2%80%99d%20like%20more%20information.",
+    Icon: <FaWhatsapp className="text-green-500 w-5 h-5" />,
   },
   {
     title: "Facebook",
     href: "https://www.youtube.com/@reactjsBD",
-    icon: <Facebook className="w-5 h-5" />,
+    Icon: <Facebook className="w-5 h-5 text-blue-500" />,
   },
   {
-    title: "Slack",
+    title: "Instagram",
     href: "https://www.youtube.com/@reactjsBD",
-    icon: <Slack className="w-5 h-5" />,
+    Icon: <Instagram className="w-5 h-5 text-pink-500" />,
   },
 ];
 
-const SocialMedia = ({ className, iconClassName, tooltipClassName }: Props) => {
+const SocialMedia = ({ className, iconClassName, tooltipClassName }: props) => {
   return (
     <TooltipProvider>
-      <div className={cn("flex items-center gap-3.5", className)}>
+      <div className={cn("flex items-center gap-3", className)}>
         {socialLink?.map((item) => (
           <Tooltip key={item?.title}>
             <TooltipTrigger asChild>
@@ -54,17 +55,17 @@ const SocialMedia = ({ className, iconClassName, tooltipClassName }: Props) => {
                 rel="noopener noreferrer"
                 href={item?.href}
                 className={cn(
-                  "p-2 border rounded-full hover:text-white hover:border-shop_light_green hoverEffect",
-                  iconClassName
+                  "p-2 border rounded-full  hover:text-violet-600 hover:border-white hoverEffect",
+                  iconClassName,
                 )}
               >
-                {item?.icon}
+                {item?.Icon}
               </Link>
             </TooltipTrigger>
             <TooltipContent
               className={cn(
-                "bg-white text-darkColor font-semibold",
-                tooltipClassName
+                "text-blue-400 bg-white font-semibold border border-white",
+                tooltipClassName,
               )}
             >
               {item?.title}

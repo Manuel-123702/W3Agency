@@ -17,8 +17,8 @@ const CategoryList = ({
 }: Props) => {
   return (
     <div className="w-full bg-white p-5">
-      <Title className="text-base font-black">Product Categories</Title>
-      <RadioGroup value={selectedCategory || ""} className="mt-2 space-y-1">
+      <Title className="text-base text-violet-600 font-black">Product Categories</Title>
+      <RadioGroup value={selectedCategory || ""} className="mt-2 space-y-1 bg">
         {categories?.map((category) => (
           <div
             onClick={() => {
@@ -30,11 +30,11 @@ const CategoryList = ({
             <RadioGroupItem
               value={category?.slug?.current as string}
               id={category?.slug?.current}
-              className="rounded-sm"
+              className="rounded-sm border-violet-400 focus:ring-violet-400"
             />
             <Label
               htmlFor={category?.slug?.current}
-              className={`${selectedCategory === category?.slug?.current ? "font-semibold text-shop_dark_green" : "font-normal"}`}
+              className={`${selectedCategory === category?.slug?.current ? "font-semibold text-blue-600" : "font-normal"}`}
             >
               {category?.title}
             </Label>
@@ -44,7 +44,7 @@ const CategoryList = ({
       {selectedCategory && (
         <button
           onClick={() => setSelectedCategory(null)}
-          className="text-sm font-medium mt-2 underline underline-offset-2 decoration-[1px] hover:text-shop_dark_green hoverEffect text-left"
+          className="text-sm font-medium mt-2 underline underline-offset-2 decoration-1 hover:text-blue-500 hoverEffect text-left"
         >
           Reset selection
         </button>

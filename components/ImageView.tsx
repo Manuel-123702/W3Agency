@@ -38,7 +38,7 @@ const ImageView = ({ images = [], isStock }: Props) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
-          className="w-full max-h-[550px] min-h-[450px] border border-darkColor/10 rounded-md group overflow-hidden"
+          className="w-full max-h-137.5 min-h-112.5 border border-darkColor/10 rounded-md group overflow-hidden"
         >
           <Image
             src={urlFor(active).url()}
@@ -46,7 +46,7 @@ const ImageView = ({ images = [], isStock }: Props) => {
             width={700}
             height={700}
             priority
-            className={`w-full h-96 max-h-[550px] min-h-[500px] object-contain group-hover:scale-110 hoverEffect rounded-md ${
+            className={`w-full h-96 max-h-137.5 min-h-112.5 object-contain group-hover:scale-110 hoverEffect rounded-md ${
               isStock === 0 ? "opacity-50" : ""
             }`}
           />
@@ -56,8 +56,10 @@ const ImageView = ({ images = [], isStock }: Props) => {
         {images?.map((image) => (
           <button
             key={image?._key}
+            type="button"
+            title={`Select your product ${image._key}`}
             onClick={() => setActive(image)}
-            className={`border rounded-md overflow-hidden ${active?._key === image?._key ? "border-darkColor opacity-100" : "opacity-80"}`}
+            className={`border rounded-md overflow-hidden ${active?._key === image?._key ? "border-blue-200 opacity-100" : "opacity-80"}`}
           >
             <Image
               src={urlFor(image).url()}

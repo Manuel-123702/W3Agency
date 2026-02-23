@@ -20,34 +20,36 @@ const Header = async () => {
   if (userId) {
     orders = await getMyOrders(userId);
   }
-
   return (
-    <header className="sticky top-0 z-50 py-5 bg-white/70 backdrop-blur-md">
+    <header className="bg-linear-to-r from-violet-200 to-blue-200 py-1 sticky top-0 z-50">
       <Container className="flex items-center justify-between text-lightColor">
-        <div className="w-auto md:w-1/3 flex items-center gap-2.5 justify-start md:gap-0">
+        <div className="w-auto md:w-1/3 flex items-center gap-2.5 justify-start">
           <MobileMenu />
           <Logo />
         </div>
         <HeaderMenu />
-        <div className="w-auto md:w-1/3 flex items-center justify-end gap-5">
+        <div className="flex items-center gap-5 w-auto md:w-1/3 justify-end">
           <SearchBar />
           <CartIcon />
           <FavoriteButton />
-
-          {user && (
-            <Link
-              href={"/orders"}
-              className="group relative hover:text-shop_light_green hoverEffect"
-            >
-              <Logs />
-              <span className="absolute -top-1 -right-1 bg-shop_btn_dark_green text-white h-3.5 w-3.5 rounded-full text-xs font-semibold flex items-center justify-center">
-                {orders?.length ? orders?.length : 0}
-              </span>
-            </Link>
-          )}
-
           <ClerkLoaded>
             <SignedIn>
+              <Link
+                href={"/orders"}
+                className="group relative hover:text-violet-500
+                 hoverEffect"
+              >
+                <Logs className="text-violet-600" />
+                <span
+                  className="absolute -top-1 -right-1 bg-violet-700
+                 text-white  
+                h-3.5 w-3.5 rounded-full text-xs
+                 font-bold flex items-center justify-center"
+                >
+                  {orders?.length ? orders?.length : 0}
+                </span>
+              </Link>
+
               <UserButton />
             </SignedIn>
             {!user && <SignIn />}

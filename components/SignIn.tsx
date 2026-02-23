@@ -5,7 +5,7 @@ import React from "react";
 const SignIn = () => {
   return (
     <SignInButton mode="modal">
-      <button className="text-sm font-semibold hover:text-darkColor text-lightColor hover:cursor-pointer hoverEffect">
+      <button className="text-2xl font-semibold hover:text-blue-700 text-violet-700 hover:cursor-pointer hoverEffect">
         Login
       </button>
     </SignInButton>
