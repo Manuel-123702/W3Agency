@@ -14,13 +14,13 @@ export const quickLinksData = [
   { title: "Help", href: "/help" },
 ];
 export const categoriesData = [
-  { title: "DELL", href: "dell" },
-  { title: "HP", href: "hp" },
-  { title: "LENOVO", href: "lenovo" },
-  { title: "MacBook", href: "macbook" },
-  { title: "DeskTops", href: "desktops" },
   { title: "Mobiles", href: "mobiles" },
-  { title: "Accessories", href: "accessories" },
+  { title: "Laptops", href: "laptops" },
+  { title: "PC Chargers And Batteries", href: "pc-chargers-and-batteries" },
+  { title: "Mobiles Accessories", href: "mobiles-accessories" },
+  { title: "Gaming Laptops", href: "gaming-laptops" },
+  { title: "Gaming Mouse", href: "gaming-mouse" },
+  { title: "Desktop Computers", href: "desktop-computers" },
 ];
 export const productType = [
   { title: "Laptops", value: "laptops" },
