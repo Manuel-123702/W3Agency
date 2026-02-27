@@ -30,9 +30,6 @@ const OrdersPage = async () => {
               </CardTitle>
             </CardHeader>
             <CardContent className="text-shop_light_green">
-              Orders are listed in the order they were placed, with the most
-              recent orders appearing first. Click on an order to view more
-              details.
               <ScrollArea>
                 <Table>
                   <TableHeader>

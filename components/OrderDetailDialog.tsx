@@ -27,15 +27,20 @@ const OrderDetailDialog: React.FC<OrderDetailsDialogProps> = ({
   onClose,
 }) => {
   if (!order) return null;
+
+  const subtotal =
+    (order.totalPrice as number) + (order.amountDiscount as number);
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl! max-h-[90vh] overflow-y-scroll">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-violet-500">
-            Order Details - {order?.orderNumber}
+            Order Details - {order.orderNumber}
           </DialogTitle>
         </DialogHeader>
-        <div className="mt-4">
+
+        <div className="mt-4 space-y-1">
           <p>
             <strong className="text-blue-500">Customer:</strong>{" "}
             {order.customerName}
@@ -54,18 +59,21 @@ const OrderDetailDialog: React.FC<OrderDetailsDialogProps> = ({
             </span>
           </p>
           <p>
-            <strong>Invoice Number:</strong> {order?.invoice?.number}
+            <strong>Invoice Number:</strong> {order.invoice?.number}
           </p>
-          {order?.invoice && (
-            <Button className=" text-darkColor mt-2 hover:text-white bg-shop_btn_dark_green hover:bg-shop_dark_green hoverEffect ">
-              {order?.invoice?.hosted_invoice_url && (
-                <Link href={order?.invoice?.hosted_invoice_url} target="_blank">
-                  Download Invoice
-                </Link>
-              )}
+
+          {order.invoice?.hosted_invoice_url && (
+            <Button
+              asChild
+              className="mt-2 bg-lightOrange text-black hover:text-white hover:bg-shop_dark_green hoverEffect"
+            >
+              <Link href={order.invoice.hosted_invoice_url} target="_blank">
+                Download Invoice
+              </Link>
             </Button>
           )}
         </div>
+
         <Table>
           <TableHeader>
             <TableRow>
@@ -74,60 +82,67 @@ const OrderDetailDialog: React.FC<OrderDetailsDialogProps> = ({
               <TableHead>Price</TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
-            {order.products?.map((product, index) => (
-              <TableRow key={index}>
-                <TableCell className="flex items-center gap-2">
-                  {product?.product?.images && (
-                    <Image
-                      src={urlFor(product?.product?.images[0]).url()}
-                      alt="productImage"
-                      width={50}
-                      height={50}
-                      className="border rounded-sm"
-                    />
-                  )}
 
-                  {product?.product && product?.product?.name}
-                </TableCell>
-                <TableCell>{product?.quantity}</TableCell>
-                <TableCell>
-                  <PriceFormatter
-                    amount={product?.product?.price}
-                    className="text-black font-medium"
-                  />
-                </TableCell>
-              </TableRow>
-            ))}
+          <TableBody>
+            {order.products?.map((product, index) => {
+              const image = product?.product?.images?.[0];
+
+              return (
+                <TableRow key={index}>
+                  <TableCell className="flex items-center gap-2">
+                    {image && (
+                      <Image
+                        src={urlFor(image).url()}
+                        alt={product?.product?.name || "Product"}
+                        width={50}
+                        height={50}
+                        className="border rounded-sm"
+                      />
+                    )}
+
+                    {product?.product?.name}
+                  </TableCell>
+
+                  <TableCell>{product?.quantity}</TableCell>
+
+                  <TableCell>
+                    <PriceFormatter
+                      amount={product?.product?.price}
+                      className="text-black font-medium"
+                    />
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
-        <div className="mt-4 text-right flex items-center justify-end">
+
+        <div className="mt-4 flex justify-end">
           <div className="w-44 flex flex-col gap-1">
-            {order?.amountDiscount !== 0 && (
-              <div className="w-full flex items-center justify-between">
-                <strong>Discount: </strong>
-                <PriceFormatter
-                  amount={order?.amountDiscount}
-                  className="text-black font-bold"
-                />
-              </div>
+            {order.amountDiscount !== 0 && (
+              <>
+                <div className="flex justify-between">
+                  <strong>Discount:</strong>
+                  <PriceFormatter
+                    amount={order.amountDiscount}
+                    className="text-black font-bold"
+                  />
+                </div>
+
+                <div className="flex justify-between">
+                  <strong>Subtotal:</strong>
+                  <PriceFormatter
+                    amount={subtotal}
+                    className="text-black font-bold"
+                  />
+                </div>
+              </>
             )}
-            {order?.amountDiscount !== 0 && (
-              <div className="w-full flex items-center justify-between">
-                <strong>Subtotal: </strong>
-                <PriceFormatter
-                  amount={
-                    (order?.totalPrice as number) +
-                    (order?.amountDiscount as number)
-                  }
-                  className="text-black font-bold"
-                />
-              </div>
-            )}
-            <div className="w-full flex items-center justify-between">
-              <strong>Total: </strong>
+
+            <div className="flex justify-between">
+              <strong>Total:</strong>
               <PriceFormatter
-                amount={order?.totalPrice}
+                amount={order.totalPrice}
                 className="text-black font-bold"
               />
             </div>

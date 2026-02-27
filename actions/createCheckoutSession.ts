@@ -36,10 +36,9 @@ export async function createCheckoutSession(
         orderNumber: metadata.orderNumber,
         customerName: metadata.customerName,
         customerEmail: metadata.customerEmail,
-        clerkUserId: metadata.clerkUserId!,
+        clerkUserId: metadata.clerkUserId ?? "",
         address: JSON.stringify(metadata.address),
-      },
-      mode: "payment",
+      }, mode: "payment",
       allow_promotion_codes: true,
       payment_method_types: ["card"],
       invoice_creation: {
@@ -51,14 +50,14 @@ export async function createCheckoutSession(
       line_items: items?.map((item) => ({
         price_data: {
           unit_amount: item?.product?.price ?? 0,
-          currency: "FCFA",
+          currency: "XAF",
 
           product_data: {
             name: item?.product?.name || "Unknown Product",
             description: item?.product?.description,
 
             metadata: {
-              id: item?.product?._id,   // ✅ THIS is valid
+              id: item?.product?._id,
             },
 
             images:
