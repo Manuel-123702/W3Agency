@@ -68,13 +68,13 @@ export type Order = {
     name?: string;
   };
   status?:
-    | "pending"
-    | "processing"
-    | "paid"
-    | "shipped"
-    | "out_for_delivery"
-    | "delivered"
-    | "cancelled";
+  | "pending"
+  | "processing"
+  | "paid"
+  | "shipped"
+  | "out_for_delivery"
+  | "delivered"
+  | "cancelled";
   orderDate?: string;
 };
 
@@ -118,37 +118,37 @@ export type Blog = {
 
 export type BlockContent = Array<
   | {
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
-      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
-      listItem?: "bullet";
-      markDefs?: Array<{
-        href?: string;
-        _type: "link";
-        _key: string;
-      }>;
-      level?: number;
-      _type: "block";
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
       _key: string;
-    }
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+    listItem?: "bullet";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }
   | {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      alt?: string;
-      _type: "image";
-      _key: string;
-    }
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+    _key: string;
+  }
 >;
 
 export type SanityImageCrop = {
@@ -669,13 +669,13 @@ export type MY_ORDERS_QUERY_RESULT = Array<{
     name?: string;
   };
   status?:
-    | "cancelled"
-    | "delivered"
-    | "out_for_delivery"
-    | "paid"
-    | "pending"
-    | "processing"
-    | "shipped";
+  | "cancelled"
+  | "delivered"
+  | "out_for_delivery"
+  | "paid"
+  | "pending"
+  | "processing"
+  | "shipped";
   orderDate?: string;
 }>;
 
