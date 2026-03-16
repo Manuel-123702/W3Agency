@@ -26,5 +26,6 @@ export const productType = [
   { title: "Laptops", value: "laptops" },
   { title: "Mobiles", value: "mobiles" },
   { title: "Desktops", value: "desktops" },
+  { title: "Watches", value: "watches" },
   { title: "Accessories", value: "accessories" },
 ];
