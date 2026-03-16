@@ -50,7 +50,7 @@ const HomeBanner = () => {
   };
 
   return (
-    <div className="overflow-hidden relative w-full">
+    <div className="overflow-hidden bottom-10 relative w-full">
       <div
         className="flex transition-transform duration-600 ease-in-out"
         style={
