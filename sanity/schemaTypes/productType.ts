@@ -86,6 +86,7 @@ export const productType = defineType({
           { title: "Laptops", value: "laptops" },
           { title: "Mobiles", value: "mobiles" },
           { title: "Desktops", value: "desktops" },
+          { title: "Watches", value: "watches" },
           { title: "Accessories", value: "accessories" },
         ],
       },
@@ -109,7 +110,7 @@ export const productType = defineType({
       const image = media && media[0];
       return {
         title: title,
-        subtitle: `${subtitle} FCFA`, 
+        subtitle: `${subtitle} FCFA`,
         media: image,
       };
     },
