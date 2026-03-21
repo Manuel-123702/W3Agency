@@ -24,6 +24,9 @@ export async function createCheckoutSession(
   metadata: Metadata
 ) {
   try {
+    //Ensure baseUrl exists for local and production
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+
     // Retrieve existing customer or create a new one
     const customers = await stripe.customers.list({
       email: metadata.customerEmail,
@@ -44,9 +47,9 @@ export async function createCheckoutSession(
       invoice_creation: {
         enabled: true,
       },
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL
+      success_url: `${baseUrl
         }/success?session_id={CHECKOUT_SESSION_ID}&orderNumber=${metadata.orderNumber}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cart`,
+      cancel_url: `${baseUrl}/cart`,
       line_items: items?.map((item) => ({
         price_data: {
           unit_amount: item?.product?.price ?? 0,
