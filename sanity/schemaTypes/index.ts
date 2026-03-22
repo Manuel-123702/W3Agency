@@ -8,11 +8,13 @@ import { brandType } from './brandTypes'
 import { categoryType } from './categoryType'
 import { orderType } from './orderType'
 import { productType } from './productType'
+import { reviewType } from "./reviewType";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
     productType,
     categoryType,
+    reviewType,
     blogCategoryType,
     authorType,
     blockContentType,

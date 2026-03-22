@@ -276,10 +276,15 @@ const CartPage = () => {
                                 </div>
                               ))}
                             </RadioGroup>
-                            <Button variant="outline" className="w-full mt-4">
-                              Add New Address
-                            </Button>
-                          </CardContent>
+                            <Button
+                              variant="outline"
+                              className="w-full bg-violet-400 hover:bg-violet-600 hover:text-white text-white mt-4"
+                              asChild
+                            >
+                              <Link href="/address">
+                                Add New Address
+                              </Link>
+                            </Button>                          </CardContent>
                         </Card>
                       </div>
                     )}
