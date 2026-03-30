@@ -16,66 +16,72 @@ interface Props {
   categories: Category[];
   brands: BRANDS_QUERY_RESULT;
 }
+
 const Shop = ({ categories, brands }: Props) => {
   const searchParams = useSearchParams();
-  const brandParams = searchParams?.get("brand");
-  const categoryParams = searchParams?.get("category");
+
+  const brandParams = searchParams?.get("brand") || null;
+  const categoryParams = searchParams?.get("category") || null;
+  const queryParam = searchParams?.get("query") || "";
+
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(
+    categoryParams
+  );
+  const [selectedBrand, setSelectedBrand] = useState<string | null>(brandParams);
+  const [selectedPrice, setSelectedPrice] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>(queryParam);
+
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(
-    categoryParams || null,
-  );
-  const [selectedBrand, setSelectedBrand] = useState<string | null>(
-    brandParams || null,
-  );
-  const [selectedPrice, setSelectedPrice] = useState<string | null>(null);
 
+  // Fetch products whenever filters or search query change
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
         let minPrice = 0;
         let maxPrice = 5000000;
+
         if (selectedPrice) {
           const [min, max] = selectedPrice.split("-").map(Number);
           minPrice = min;
           maxPrice = max;
         }
-        const query = `
-        *[_type == 'product' 
-          && (!defined($selectedCategory) || references(*[_type == "category" && slug.current == $selectedCategory]._id))
-          && (!defined($selectedBrand) || references(*[_type == "brand" && slug.current == $selectedBrand]._id))
-          && price >= $minPrice && price <= $maxPrice
-        ] 
-        | order(name asc) {
-          ...,"categories": categories[]->title
-        }
-      `;
-        const data = await client.fetch(
-          query,
-          { selectedCategory, selectedBrand, minPrice, maxPrice },
-          { next: { revalidate: 0 } },
-        );
+
+        const groqQuery = `
+          *[_type == "product"
+            ${selectedCategory ? `&& references(*[_type=="category" && slug.current=="${selectedCategory}"]._id)` : ""}
+            ${selectedBrand ? `&& references(*[_type=="brand" && slug.current=="${selectedBrand}"]._id)` : ""}
+            ${searchQuery ? `&& name match "*${searchQuery}*"` : ""}
+            && price >= $minPrice && price <= $maxPrice
+          ] | order(name asc) {
+            ...,
+            "categories": categories[]->title
+          }
+        `;
+
+        const data = await client.fetch(groqQuery, { minPrice, maxPrice });
         setProducts(data);
-      } catch (error) {
-        console.log("Shop product fetching Error", error);
+      } catch (err) {
+        console.error("Shop product fetching Error", err);
       } finally {
         setLoading(false);
       }
     };
+
     fetchProducts();
-  }, [selectedCategory, selectedBrand, selectedPrice]);
+  }, [selectedCategory, selectedBrand, selectedPrice, searchQuery]);
+
   return (
     <div className="border-t border-t-blue-200">
       <Container className="mt-5">
+        {/* Header */}
         <div className="sticky top-0 z-10 mb-5">
           <div className="flex items-center justify-between">
             <Title className="text-lg uppercase tracking-wide">
               Get the products as your needs
             </Title>
-            {(selectedCategory !== null ||
-              selectedBrand !== null ||
-              selectedPrice !== null) && (
+            {(selectedCategory || selectedBrand || selectedPrice) && (
               <button
                 onClick={() => {
                   setSelectedCategory(null);
@@ -89,7 +95,9 @@ const Shop = ({ categories, brands }: Props) => {
             )}
           </div>
         </div>
+
         <div className="flex flex-col md:flex-row gap-5 border-t border-t-blue-200">
+          {/* Sidebar Filters */}
           <div className="md:sticky md:top-20 md:self-start md:h-[calc(100vh-160px)] md:overflow-y-auto md:min-w-64 pb-5 md:border-r border-r-blue-200 scrollbar-hide">
             <CategoryList
               categories={categories}
@@ -98,14 +106,16 @@ const Shop = ({ categories, brands }: Props) => {
             />
             <BrandList
               brands={brands}
-              setSelectedBrand={setSelectedBrand}
               selectedBrand={selectedBrand}
+              setSelectedBrand={setSelectedBrand}
             />
             <PriceList
-              setSelectedPrice={setSelectedPrice}
               selectedPrice={selectedPrice}
+              setSelectedPrice={setSelectedPrice}
             />
           </div>
+
+          {/* Products Grid */}
           <div className="flex-1 pt-5">
             <div className="h-[calc(100vh-160px)] overflow-y-auto pr-2 scrollbar-hide">
               {loading ? (
@@ -115,10 +125,10 @@ const Shop = ({ categories, brands }: Props) => {
                     Product is loading . . .
                   </p>
                 </div>
-              ) : products?.length > 0 ? (
+              ) : products.length > 0 ? (
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5">
-                  {products?.map((product) => (
-                    <ProductCard key={product?._id} product={product} />
+                  {products.map((product) => (
+                    <ProductCard key={product._id} product={product} />
                   ))}
                 </div>
               ) : (

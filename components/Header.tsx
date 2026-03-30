@@ -7,14 +7,18 @@ import CartIcon from "./CartIcon";
 import FavoriteButton from "./FavoriteButton";
 import SignIn from "./SignIn";
 import MobileMenu from "./MobileMenu";
-import { auth } from "@clerk/nextjs/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { ClerkLoaded, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
-import { Logs } from "lucide-react";
+import { Logs, LayoutDashboard } from "lucide-react"; // Import the Dashboard icon
 import { getMyOrders } from "@/sanity/queries";
 
 const Header = async () => {
   const { userId } = await auth();
+  const user = await currentUser();
+
+  // Check for the admin role we set in Clerk Metadata
+  const isAdmin = user?.publicMetadata?.role === "admin";
 
   let orders = null;
 
@@ -39,6 +43,7 @@ const Header = async () => {
 
           <ClerkLoaded>
             <SignedIn>
+              {/* --- ORDERS ICON --- */}
               <Link
                 href="/orders"
                 className="group relative hover:text-violet-500 hoverEffect"
@@ -52,7 +57,19 @@ const Header = async () => {
                 </span>
               </Link>
 
+              {/* --- CLERK USER BUTTON --- */}
               <UserButton />
+
+              {/* --- ADMIN ICON (Placed to the RIGHT of Login/UserButton) --- */}
+              {isAdmin && (
+                <Link
+                  href="/studio"
+                  title="Admin Dashboard"
+                  className="group relative hover:text-violet-500 hoverEffect"
+                >
+                  <LayoutDashboard className="text-violet-600 w-6 h-6" />
+                </Link>
+              )}
             </SignedIn>
 
             <SignedOut>

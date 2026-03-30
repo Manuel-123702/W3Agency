@@ -1,6 +1,15 @@
-import { clerkMiddleware } from '@clerk/nextjs/server';
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-export default clerkMiddleware();
+// 1. This defines WHICH routes should trigger the Clerk Login
+// We are telling it to protect anything that starts with /studio
+const isProtectedRoute = createRouteMatcher(['/studio(.*)']);
+
+export default clerkMiddleware(async (auth, req) => {
+  // 2. If the user is trying to access the studio, force them to log in
+  if (isProtectedRoute(req)) {
+    await auth.protect();
+  }
+});
 
 export const config = {
   matcher: [

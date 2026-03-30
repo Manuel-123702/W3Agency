@@ -22,6 +22,7 @@ export const categoriesData = [
   { title: "Gaming Laptops", href: "gaming-laptops" },
   { title: "Gaming Mouse", href: "gaming-mouse" },
   { title: "Desktop Computers", href: "desktop-computers" },
+  { title: "Smart Watches", href: "smart-watches" },
 ];
 export const productType = [
   { title: "Laptops", value: "laptops" },
