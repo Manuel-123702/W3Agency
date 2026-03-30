@@ -27,7 +27,7 @@ const socialLink = [
   },
   {
     title: "WhatsApp",
-    href: "https://api.whatsapp.com/send?phone=650921917&text=Hello,%20I%20visited%20your%20website%20and%20I%E2%80%99d%20like%20more%20information.",
+    href: "https://api.whatsapp.com/send?phone=237650921917&text=Hello,%20I%20visited%20your%20website%20and%20I%E2%80%99d%20like%20more%20information.",
     Icon: <FaWhatsapp className="text-green-500 w-5 h-5" />,
   },
   {
