@@ -5,7 +5,7 @@ import React from "react";
 const helpTopics = [
     {
         question: "How do I contact customer support?",
-        answer: "You can contact us via the Contact page using the form, or email us directly at support@techstore.com."
+        answer: "You can contact us via the Contact page using the form, or email us directly at tessohmanuel@gmail.com."
     },
     {
         question: "How can I track my order?",

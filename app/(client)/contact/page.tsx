@@ -46,10 +46,10 @@ export default function ContactPage() {
                     <h2 className="text-2xl text-blue-500 font-semibold">Get in Touch</h2>
 
                     <div className="space-y-3 text-gray-600">
-                        <p><strong>Email:</strong> support@techstore.com</p>
-                        <p><strong>Phone:</strong> +237 650 921 917</p>
-                        <p><strong>Address:</strong> Douala, Cameroon</p>
-                        <p><strong>Business Hours:</strong> Mon - Sat (9:00AM - 6:00PM)</p>
+                        <p><strong className="text-shop_light_green">Email:</strong> tessohmanuel@gmail.com</p>
+                        <p><strong className="text-shop_light_green">Phone:</strong> +237 650 921 917</p>
+                        <p><strong className="text-shop_light_green">Address:</strong> Douala, Cameroon</p>
+                        <p><strong className="text-shop_light_green">Business Hours:</strong> Mon - Sat (9:00AM - 6:00PM)</p>
                     </div>
 
                     <p className="text-gray-500">
@@ -64,7 +64,7 @@ export default function ContactPage() {
                     className="space-y-4 border p-6 rounded-lg shadow-sm"
                 >
                     <div>
-                        <label className="block text-sm font-medium">Full Name</label>
+                        <label><strong className="text-shop_dark_green">Full Name</strong></label>
                         <input
                             type="text"
                             name="name"
@@ -75,7 +75,7 @@ export default function ContactPage() {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium">Email</label>
+                        <label><strong className="text-shop_dark_green">Email</strong></label>
                         <input
                             type="email"
                             name="email"
@@ -86,7 +86,7 @@ export default function ContactPage() {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium">Message</label>
+                        <label><strong className="text-shop_dark_green">Message</strong></label>
                         <textarea
                             name="message"
                             rows={5}
@@ -97,7 +97,7 @@ export default function ContactPage() {
                     </div>
 
                     <button className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
-                        Send Message
+                        Send
                     </button>
                 </form>
 

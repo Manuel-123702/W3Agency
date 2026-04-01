@@ -101,6 +101,14 @@ const OTHERS_BLOG_QUERY = defineQuery(
   }`
 );
 
+const ALL_PRODUCTS = defineQuery(`
+  *[_type == "product"] | order(_createdAt desc){
+    _id,
+    name,
+    "image": images[0].asset->url
+  }
+`);
+
 export {
   BRANDS_QUERY,
   LATEST_BLOG_QUERY,
@@ -112,4 +120,5 @@ export {
   SINGLE_BLOG_QUERY,
   BLOG_CATEGORIES,
   OTHERS_BLOG_QUERY,
+  ALL_PRODUCTS,
 };

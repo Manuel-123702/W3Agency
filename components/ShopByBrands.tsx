@@ -8,13 +8,13 @@ import { GitCompareArrows, Headset, ShieldCheck, Truck } from "lucide-react";
 
 const extraData = [
   {
-    title: "Free Delivery",
-    description: "Free shipping over 5 000 FCFA",
+    title: "Quality Assurance",
+    description: "Products checked before delivery",
     icon: <Truck size={45} />,
   },
   {
-    title: "Free Return", 
-    description: "Free shipping over 5 000 FCFA",
+    title: "Fast Response",
+    description: "Quick replies to your inquiries",
     icon: <GitCompareArrows size={45} />,
   },
   {
@@ -23,8 +23,8 @@ const extraData = [
     icon: <Headset size={45} />,
   },
   {
-    title: "Money Back guarantee",
-    description: "Quality checked by our team",
+    title: "Secure Payment",
+    description: "Safe and reliable transactions",
     icon: <ShieldCheck size={45} />,
   },
 ];
