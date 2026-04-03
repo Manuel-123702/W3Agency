@@ -185,7 +185,7 @@ const SearchBar = () => {
             {/* Header */}
             <div className="flex justify-between p-4 border-b">
               <h2 className="font-semibold text-violet-600">Search Products</h2>
-              <button onClick={closeSearch}>❌</button>
+              <button onClick={closeSearch}>✕</button>
             </div>
 
             {/* Input inside modal */}
