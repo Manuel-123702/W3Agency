@@ -30,6 +30,7 @@
     "cmdk": "^1.0.0",
     "dayjs": "^1.11.19",
     "embla-carousel-react": "^8.5.2",
+    "fuse.js": "^7.2.0",
     "lucide-react": "^0.477.0",
     "motion": "^12.27.0",
     "next": "^16.1.6",
