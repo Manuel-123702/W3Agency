@@ -12,7 +12,7 @@ const CategoryPage = async ({
   const categories = await getCategories();
   const { slug } = await params;
   return (
-    <div className="pb-10">
+    <div className="pb-10 -mt-12">
       <Container>
         <Title>
           Products by Category:{" "}

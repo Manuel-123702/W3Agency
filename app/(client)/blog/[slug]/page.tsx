@@ -25,7 +25,7 @@ const SingleBlogPage = async ({
   if (!blog) return notFound();
 
   return (
-    <div className="py-10">
+    <div className="-mt-12">
       <Container className="grid grid-cols-1 lg:grid-cols-4 gap-5">
         <div className="md:col-span-3">
           {blog?.mainImage && (
@@ -209,7 +209,7 @@ const BlogLeft = async ({ slug }: { slug: string }) => {
               key={index}
               className="text-lightColor flex items-center justify-between text-sm font-medium"
             >
-              <p>{blogcategories[0]?.title}</p>
+              <p>{blogcategories?.[0]?.title}</p>
               <p className="text-darkColor font-semibold">{`(3)`}</p>
             </div>
           ))}
@@ -218,7 +218,7 @@ const BlogLeft = async ({ slug }: { slug: string }) => {
       <div className="border border-lightColor p-5 rounded-md mt-10">
         <Title className="text-base text-violet-500">Latest Blogs</Title>
         <div className="space-y-4 mt-4">
-          {blogs?.map((blog: Blog, index: number) => (
+          {blogs?.map((blog, index: number) => (
             <Link
               href={`/blog/${blog?.slug?.current}`}
               key={index}

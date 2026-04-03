@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import Fuse from "fuse.js";
 import { client } from "@/sanity/lib/client";
 import AddToCartButton from "@/components/AddToCartButton";
 import PriceView from "@/components/PriceView";
@@ -23,7 +22,7 @@ const SearchBar = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [trending, setTrending] = useState<Product[]>([]);
   const [recentSearches, setRecentSearches] = useState<Product[]>([]);
-  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [suggestions, setSuggestions] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
@@ -32,10 +31,9 @@ const SearchBar = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
-  // Clear broken recent searches
+  // Clear old recent searches on load
   useEffect(() => localStorage.removeItem("recentSearches"), []);
 
-  // Close search
   const closeSearch = () => {
     setOpen(false);
     setQuery("");
@@ -44,7 +42,7 @@ const SearchBar = () => {
     setHighlightedIndex(-1);
   };
 
-  // Click outside
+  // Click outside closes search
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (!wrapperRef.current?.contains(e.target as Node)) closeSearch();
@@ -53,7 +51,7 @@ const SearchBar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Load recent
+  // Load recent searches
   useEffect(() => {
     const stored = localStorage.getItem("recentSearches");
     if (stored) {
@@ -65,7 +63,6 @@ const SearchBar = () => {
     }
   }, []);
 
-  // Save recent
   const saveRecent = (product: Product) => {
     const updated = [
       product,
@@ -75,7 +72,7 @@ const SearchBar = () => {
     localStorage.setItem("recentSearches", JSON.stringify(updated));
   };
 
-  // Fetch trending
+  // Fetch trending products
   useEffect(() => {
     const fetchTrending = async () => {
       const data = await client.fetch(`*[_type=="product"] | order(_createdAt desc)[0...5]{
@@ -87,7 +84,7 @@ const SearchBar = () => {
     fetchTrending();
   }, []);
 
-  // Search & suggestions
+  // Search products & suggestions
   useEffect(() => {
     const timeout = setTimeout(async () => {
       if (!query.trim()) {
@@ -97,36 +94,32 @@ const SearchBar = () => {
       }
 
       setLoading(true);
-
       try {
-        // Fetch all products to run Fuse.js for typo tolerance
-        const allProducts: Product[] = await client.fetch(`*[_type=="product"]{
-          _id, name, slug, price, discount, stock, description,
-          "image": images[0].asset->url
-        }`);
+        const data: Product[] = await client.fetch(
+          `*[_type == "product" && (name match $search || description match $search)]{
+              _id,
+              name,
+              slug,
+              price,
+              discount,
+              stock,
+              "image": images[0].asset->url
+          }[0...6]`,
+          { search: `*${query}*` } // ✅ Key must match $search
+        );
 
-        // Fuse.js setup
-        const fuse = new Fuse(allProducts, {
-          keys: ["name", "description"],
-          threshold: 0.3, // typo tolerance
-        });
-
-        const results = fuse.search(query).map((r) => r.item);
-        setProducts(results.slice(0, 6));
-
-        // Suggestions: top 5 names
-        setSuggestions(results.slice(0, 5).map((p) => p.name));
+        setProducts(data);
+        setSuggestions(data.slice(0, 5)); // top 5 suggestions
       } catch (err) {
         console.error(err);
       } finally {
         setLoading(false);
       }
-    }, 200); // faster search
+    }, 200);
 
     return () => clearTimeout(timeout);
   }, [query]);
 
-  // Click product
   const handleClickProduct = (product: Product) => {
     saveRecent(product);
     router.push(`/product/${product.slug.current}`);
@@ -148,13 +141,13 @@ const SearchBar = () => {
     }
     if (e.key === "Enter" && highlightedIndex >= 0) {
       const selected = suggestions.length
-        ? products.find((p) => p.name === suggestions[highlightedIndex])
+        ? suggestions[highlightedIndex]
         : products[highlightedIndex];
       selected && handleClickProduct(selected);
     }
   };
 
-  // Highlight matched text
+  // Highlight matching text
   const highlightText = (text: string) => {
     if (!query) return text;
     const regex = new RegExp(`(${query})`, "gi");
@@ -165,6 +158,7 @@ const SearchBar = () => {
 
   return (
     <div ref={wrapperRef} className="relative px-1">
+
       {/* Search input */}
       <form className={`flex items-center overflow-hidden w-11 h-11 bg-blue-500 rounded-full transition-all duration-300 ${open ? "w-64" : "hover:w-64"}`}>
         <div className="flex items-center justify-center pl-3">
@@ -184,15 +178,14 @@ const SearchBar = () => {
         />
       </form>
 
-      {/* Modal */}
       {open && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex justify-center pt-20">
-          <div className="bg-white w-full max-w-3xl rounded-lg shadow-xl">
+          <div className="bg-white w-full max-w-3xl rounded-lg shadow-xl max-h-[80vh] overflow-y-auto">
 
             {/* Header */}
             <div className="flex justify-between p-4 border-b">
               <h2 className="font-semibold text-violet-600">Search Products</h2>
-              <button onClick={closeSearch}>✕</button>
+              <button onClick={closeSearch}>❌</button>
             </div>
 
             {/* Input inside modal */}
@@ -208,24 +201,56 @@ const SearchBar = () => {
               />
             </div>
 
-            <div className="max-h-96 overflow-y-auto relative">
+            <div className="relative">
 
-              {/* Suggestions */}
+              {/* Suggestions - now professional, does NOT cover results */}
               {query && suggestions.length > 0 && (
-                <div className="absolute top-0 left-0 w-full bg-white z-50 rounded-b shadow-md">
+                <div className="bg-white border-b shadow-sm">
                   {suggestions.map((s, i) => (
                     <p
-                      key={i}
+                      key={s._id}
                       className={`px-4 py-2 cursor-pointer ${highlightedIndex === i ? "bg-gray-100" : ""}`}
-                      onClick={() => setQuery(s)}
+                      onClick={() => setQuery(s.name)}
                     >
-                      {highlightText(s)}
+                      {highlightText(s.name)}
                     </p>
                   ))}
                 </div>
               )}
 
-              {/* Recent */}
+              {/* Product results */}
+              {/* Product results */}
+              <div className="mt-2">
+                {loading && <p className="p-4 text-gray-500">Loading...</p>}
+
+                {/* ❌ Only show this if user typed a query */}
+                {!loading && query.trim() !== "" && products.length === 0 && (
+                  <p className="p-4 text-center text-gray-500">
+                    ❌ No products found for "{query}"
+                  </p>
+                )}
+
+                {products.map((p) => (
+                  <div key={p._id} className="flex gap-4 p-4 border-b">
+                    <img
+                      src={p.image || "/placeholder.png"}
+                      alt={p.name || "Product image"}
+                      className="w-20 h-20 rounded object-cover"
+                    />
+                    <div className="flex-1">
+                      <p
+                        onClick={() => handleClickProduct(p)}
+                        className="cursor-pointer font-medium"
+                      >
+                        {p.name}
+                      </p>
+                      <AddToCartButton product={p as any} />
+                    </div>
+                    <PriceView price={p.price} discount={p.discount} />
+                  </div>
+                ))}
+              </div>
+              {/* Recent searches (only if query empty) */}
               {!query && recentSearches.length > 0 && (
                 <div className="p-4 border-b">
                   <p className="font-semibold text-violet-600 mb-2">Recent</p>
@@ -235,51 +260,38 @@ const SearchBar = () => {
                       onClick={() => handleClickProduct(item)}
                       className="flex items-center gap-4 py-2 cursor-pointer hover:bg-gray-100 rounded"
                     >
-                      <img src={item.image || "/placeholder.png"} className="w-12 h-12 object-cover rounded bg-gray-100"/>
+                      <img
+                        src={item.image || "/placeholder.png"}
+                        alt={item.name || "Product image"}
+                        className="w-12 h-12 object-cover rounded bg-gray-100"
+                      />
                       <p className="text-sm">{item.name}</p>
                     </div>
                   ))}
                 </div>
               )}
 
-              {/* Trending */}
+              {/* Trending products */}
               {!query && (
                 <div className="p-4">
                   <p className="font-semibold text-violet-600 mb-2">Trending</p>
                   {trending.map((p) => (
-                    <div key={p._id} onClick={() => handleClickProduct(p)} className="flex gap-4 py-3 border-b cursor-pointer">
-                      <img src={p.image || "/placeholder.png"} className="w-16 h-16"/>
+                    <div
+                      key={p._id}
+                      onClick={() => handleClickProduct(p)}
+                      className="flex gap-4 py-3 border-b cursor-pointer"
+                    >
+                      <img
+                        src={p.image || "/placeholder.png"}
+                        alt={p.name || "Product image"}
+                        className="w-16 h-16"
+                      />
                       <p>{p.name}</p>
                     </div>
                   ))}
                 </div>
               )}
 
-              {/* Results */}
-              {query && (
-                <>
-                  {loading && <p className="p-4 text-gray-500">Loading...</p>}
-
-                  {!loading && products.length === 0 && (
-                    <p className="p-4 text-center text-gray-500">
-                      ❌ No products found for "{query}"
-                    </p>
-                  )}
-
-                  {products.map((p, index) => (
-                    <div key={p._id} className={`flex gap-4 p-4 border-b ${highlightedIndex === index ? "bg-gray-100" : ""}`}>
-                      <img src={p.image || "/placeholder.png"} className="w-20 h-20 rounded object-cover"/>
-                      <div className="flex-1">
-                        <p onClick={() => handleClickProduct(p)} className="cursor-pointer font-medium">
-                          {highlightText(p.name)}
-                        </p>
-                        <AddToCartButton product={p as any}/>
-                      </div>
-                      <PriceView price={p.price} discount={p.discount}/>
-                    </div>
-                  ))}
-                </>
-              )}
             </div>
           </div>
         </div>

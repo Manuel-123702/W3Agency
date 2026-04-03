@@ -31,7 +31,7 @@ export default function ContactPage() {
     };
 
     return (
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-6xl mx-auto px-6 -mt-12">
 
             {/* Title */}
             <h1 className="text-4xl font-bold mb-4 text-violet-500 text-center">Contact Us</h1>

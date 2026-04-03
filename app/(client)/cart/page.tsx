@@ -100,7 +100,7 @@ const CartPage = () => {
     }
   };
   return (
-    <div className="bg-gray-50 pb-52 md:pb-10">
+    <div className="bg-gray-50 pb-52 -mt-12 md:pb-10">
       {isSignedIn ? (
         <Container>
           {groupedItems?.length ? (

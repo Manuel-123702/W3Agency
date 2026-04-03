@@ -4,7 +4,7 @@ import React from "react";
 
 export default function TermsPage() {
     return (
-        <div className="max-w-4xl mx-auto px-6">
+        <div className="max-w-4xl -mt-12 mx-auto px-6">
             <h1 className="text-4xl font-bold text-violet-500  mb-6 text-center">Terms & Conditions</h1>
 
             <p className="text-gray-700 mb-4">

@@ -29,7 +29,7 @@ export default function AddressPage() {
     };
 
     return (
-        <div className="max-w-xl mx-auto mt-10 p-6 bg-shop_light_bg shadow-lg rounded-lg">
+        <div className="max-w-xl mx-auto p-6 -mt-12 bg-shop_light_bg shadow-lg rounded-lg">
 
             <h1 className="text-2xl font-semibold text-violet-500 mb-6 text-center">
                 Add Delivery Address

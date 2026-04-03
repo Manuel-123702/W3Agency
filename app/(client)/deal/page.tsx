@@ -16,7 +16,7 @@ interface Product {
 const DealPage = async () => {
   const products = await getDealProducts();
   return (
-    <div className="py-10 bg-linear-to-r from-deal-bg to-shop_light_bg">
+    <div className="-mt-12">
       <Container>
         <Title className="mb-5 underline underline-offset-4 decoration-1 text-base uppercase tracking-wide text-violet-500">
           Hot Deals of the Week

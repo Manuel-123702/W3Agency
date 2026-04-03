@@ -17,13 +17,13 @@ const helpTopics = [
     },
     {
         question: "Can I cancel my order?",
-        answer: "Orders can be cancelled before they are shipped. Please contact support as soon as possible to cancel an order."
+        answer: "Orders can be canceled only by the Admin. Please contact support as soon as possible to request a cancellation."
     },
 ];
 
 export default function HelpPage() {
     return (
-        <div className="max-w-4xl mx-auto px-6">
+        <div className="max-w-4xl mx-auto -mt-12 px-6">
             <h1 className="text-4xl font-bold mb-6 text-violet-500 text-center">Help Center</h1>
             <p className="text-gray-700 mb-12 text-center">
                 Find answers to common questions and get assistance from our support team.

@@ -40,7 +40,7 @@ const SingleProductPage = async ({
   return (
     <Container>
 
-      <div className="flex flex-col md:flex-row gap-10">
+      <div className="flex flex-col -mt-12 md:flex-row gap-10">
 
         {product?.images && (
           <ImageView images={product?.images} isStock={product?.stock} />
