@@ -3,6 +3,7 @@ import React, { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 import { toast } from "react-hot-toast";
 import { useUser, SignInButton } from "@clerk/nextjs"; // Added SignInButton
+import { Button } from "./ui/button";
 
 const Newsletter = () => {
     const { user, isSignedIn } = useUser();
@@ -51,7 +52,9 @@ const Newsletter = () => {
                     {isSignedIn ? (
                         /* SHOW FORM ONLY IF LOGGED IN */
                         <form ref={form} onSubmit={handleSubscribe} className="relative w-full">
+                            <label htmlFor="user_email" className="sr-only">Email Address</label>
                             <input
+                                id="user_email"
                                 type="email"
                                 name="user_email"
                                 readOnly // User cannot change it, ensuring it matches their Clerk account
@@ -62,7 +65,7 @@ const Newsletter = () => {
                             {/* DYNAMIC NAME FROM CLERK */}
                             <input type="hidden" name="user_name" value={fullName} />
 
-                            <button
+                            <Button
                                 type="submit"
                                 disabled={loading}
                                 className={`absolute right-2 top-2 bottom-2 px-6 rounded-full transition-all duration-300 font-medium 
@@ -73,7 +76,7 @@ const Newsletter = () => {
                                 style={{ minWidth: "130px" }}
                             >
                                 {loading ? "Subscribing..." : "Subscribe"}
-                            </button>
+                            </Button>
                         </form>
                     ) : (
                         /* SHOW LOGIN BUTTON IF NOT LOGGED IN */
