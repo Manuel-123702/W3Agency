@@ -8,23 +8,29 @@
   0% { transform: translateX(0%); }
   100% { transform: translateX(-50%); }
 }
-/* Force the HTML and BODY not to allow horizontal scrolling */
-html, body {
+
+/* FIX: Changed clip to allow sticky behavior, and removed position: relative from html */
+html {
   max-width: 100vw;
-  overflow-x: hidden;
-  position: relative;
 }
 
-/* Fallback for the main tag as well */
+body {
+  max-width: 100vw;
+  position: relative;
+  overflow-x: clip; /* This stays, it's safe for sticky */
+}
+
+/* FIX: REMOVED overflow-x: hidden. This was what killed your sticky navbar! */
 main {
   width: 100%;
   max-width: 100%;
-  overflow-x: hidden;
   box-sizing: border-box; 
 }
+
 .animate-marquee {
   animation: marquee 10s linear infinite;
 }
+/* ... rest of your code remains the same ... */
 @theme {
   --font-poppins: "Poppins", sans-serif;
   --color-shop_light_pink: #CBDDE9;

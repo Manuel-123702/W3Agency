@@ -9,8 +9,7 @@ export const metadata: Metadata = {
     template: "%s - W3Agency online store",
     default: "W3Agency online store",
   },
-  description:
-    "W3Agency online store, your one-stop shop for all things awesome.",
+  description: "W3Agency online store, your one-stop shop for all things awesome.",
 };
 
 export default function RootLayout({
@@ -20,11 +19,13 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
+      {/* Ensure no overflow-hidden classes are here */}
       <div className="flex flex-col min-h-screen">
         <Header />
-        <main className="py-20">{children}</main>
+        <main className="grow pt-20">
+          {children}
+        </main>
         <Footer />
-
       </div>
     </ClerkProvider>
   );

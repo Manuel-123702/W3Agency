@@ -8,11 +8,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     <ClerkProvider>
       <html lang="en">
         <body className="font-poppins antialiased">
-
-          {/* Add this wrapper div right here */}
-          <div className="w-full max-w-[100vw] overflow-x-hidden">
-            {children}
-          </div>
+          {children}
 
           <Script id="tawk-to" strategy="afterInteractive">
             {`
@@ -43,6 +39,5 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     </ClerkProvider>
   );
 };
-
 
 export default RootLayout;
