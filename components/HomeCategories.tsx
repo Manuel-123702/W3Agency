@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const HomeCategories = ({ categories }: { categories: Category[] }) => {
   return (
-    <div className="bg-linear-to-r from-white to-white border border-blue-100 my-10 md:my-20 p-5 lg:p-7 rounded-md">
+    <div className="bg-linear-to-r  from-light_bg to-deal-bg border border-blue-100 my-10 md:my-20 p-5 lg:p-7 rounded-md">
       <Title className="border-b pb-3">Popular Categories</Title>
       <div className="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {categories?.map((category) => (
