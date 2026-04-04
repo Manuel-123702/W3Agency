@@ -1,4 +1,5 @@
 import Container from "@/components/Container";
+import Newsletter from "@/components/Newsletter";
 import GridProduct from "@/components/GridProduct";
 import HomeBanner from "@/components/HomeBanner";
 import HomeCategories from "@/components/HomeCategories";
@@ -35,6 +36,7 @@ const Home = async () => {
       <ShopByBrands />
       <GridProduct products={products} />
       <LatestBlog />
+      <Newsletter />
     </Container>
   );
 };

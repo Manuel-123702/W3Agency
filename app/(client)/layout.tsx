@@ -24,6 +24,7 @@ export default function RootLayout({
         <Header />
         <main className="py-20">{children}</main>
         <Footer />
+
       </div>
     </ClerkProvider>
   );
