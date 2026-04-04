@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { assets } from "@/assets/assets";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 
 // Import all banner images
@@ -18,8 +18,19 @@ import bannerImage10 from "../images/banner_10.jpg";
 import bannerImage11 from "../images/banner_11.png";
 import bannerImage12 from "../images/banner_12.jpg";
 
+// 1. Define the Interface for TypeScript
+interface Slide {
+  id: number;
+  title: string;
+  offer: string;
+  buttonText1: string;
+  buttonText2: string;
+  imgSrc: StaticImageData | string;
+}
+
 const HomeBanner = () => {
-  const sliderData = [
+  // 2. Assign the Slide[] type to your data array
+  const sliderData: Slide[] = [
     {
       id: 1,
       title: "Welcome to W3Agency - Discover Upto 20% Off Of Amazing Deals!",
@@ -127,10 +138,6 @@ const HomeBanner = () => {
     return () => clearInterval(interval);
   }, [sliderData.length]);
 
-  const handleSlideChange = (index: React.SetStateAction<number>) => {
-    setCurrentSlide(index);
-  };
-
   return (
     <div className="overflow-hidden relative w-full">
       <div
@@ -169,25 +176,15 @@ const HomeBanner = () => {
               <Image
                 src={slide.imgSrc}
                 alt={`Slide ${index + 1}`}
-                width={260} // fixed width
-                height={400} // fixed height
+                width={260}
+                height={400}
                 className="object-cover rounded-xl"
               />
             </div>
           </div>
         ))}
       </div>
-
-      <div className="flex items-center justify-center gap-2 mt-8">
-        {sliderData.map((_, index) => (
-          <div
-            key={index}
-            onClick={() => handleSlideChange(index)}
-            className={`h-2 w-2 rounded-full cursor-pointer ${currentSlide === index ? "bg-blue-600" : "bg-gray-500/30"
-              }`}
-          ></div>
-        ))}
-      </div>
+      {/* Pagination dots removed */}
     </div>
   );
 };
