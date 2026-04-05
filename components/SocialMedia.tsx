@@ -22,7 +22,7 @@ const socialLink = [
   },
   {
     title: "Github",
-    href: "https://www.youtube.com/@reactjsBD",
+    href: "https://github.com/",
     Icon: <Github className="w-5 h-5" />,
   },
   {
@@ -32,12 +32,12 @@ const socialLink = [
   },
   {
     title: "Facebook",
-    href: "https://www.youtube.com/@reactjsBD",
+    href: "https://www.facebook.com/profile.php?id=61574347701330&mibextid=rS40aB7S9Ucbxw6v",
     Icon: <Facebook className="w-5 h-5 text-blue-500" />,
   },
   {
     title: "Instagram",
-    href: "https://www.youtube.com/@reactjsBD",
+    href: "https://www.instagram.com/?hl=en",
     Icon: <Instagram className="w-5 h-5 text-pink-500" />,
   },
 ];
