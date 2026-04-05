@@ -31,13 +31,13 @@ export default async function StudioPage() {
           <h1 className="text-3xl font-extrabold text-slate-900 mb-2">Restricted Area</h1>
           <p className="text-slate-500 mb-8 leading-relaxed">
             Authentication successful as <span className="font-medium text-slate-800">{user.primaryEmailAddress?.emailAddress}</span>.
-            However, your account lacks <span className="text-red-600 font-bold">Admin Privileges</span> required for the Studio.
+            However, your account lacks <span className="text-red-600 font-bold">Admin Privileges</span> required for the .
           </p>
 
           <div className="space-y-4">
             <Link
               href="/"
-              className="w-full flex items-center justify-center gap-2 bg-slate-900 hover:bg-black text-white font-semibold py-3 px-6 rounded-xl transition-all shadow-md"
+              className="w-full flex items-center justify-center gap-2 bg-sky-300 hover:bg-sky-500 text-white font-semibold py-3 px-6 rounded-xl transition-all shadow-md"
             >
               <Home className="w-5 h-5" />
               Return to Website
@@ -52,6 +52,6 @@ export default async function StudioPage() {
     )
   }
 
-  // 3. If Admin, show the Sanity Studio
+  // 3. If Admin, show the Sanity 
   return <NextStudio config={config} />
 }

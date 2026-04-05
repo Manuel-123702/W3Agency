@@ -21,13 +21,13 @@ const NotFoundPage = () => {
           <div className="rounded-md shadow-sm space-y-4">
             <Link
               href="/"
-              className="w-full flex items-center justify-center px-4 py-2 border border-transparent text-sm font-semibold rounded-md text-white bg-gradient-to-r from-blue-400 to-violet-400 hover:from-violet-500 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amazonOrangeDark hoverEffect"
+              className="w-full flex items-center justify-center px-4 py-2 border border-transparent text-sm font-semibold rounded-md text-white bg-linear-to-r from-blue-400 to-violet-400 hover:from-violet-500 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amazonOrangeDark hoverEffect"
             >
               Go to W3Agency home page
             </Link>
             <Link
               href="/help"
-              className="w-full flex items-center justify-center px-4 py-2  text-sm font-semibold rounded-md text-amazonBlue bg-gradient-to-r from-violet-200 to-blue-200 hover:from-blue-300 hover:to-violet-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amazonBlue"
+              className="w-full flex items-center justify-center px-4 py-2  text-sm font-semibold rounded-md text-amazonBlue bg-linear-to-r from-violet-200 to-blue-200 hover:from-blue-300 hover:to-violet-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amazonBlue"
             >
               Help
             </Link>
