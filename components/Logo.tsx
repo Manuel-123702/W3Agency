@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 const Logo: React.FC<{ spanDesign?: string, className?: string }> = ({ className }) => (
     <Link href={"/"}>
-        <Image src={logo} alt="Logo" className={cn('h-20 w-auto hover:scale-105 transition-transform', className)} />
+        <Image src={logo} alt="Logo" className={cn(' h-30 w-60 hover:scale-105 transition-transform', className)} />
     </Link>
 );
 
