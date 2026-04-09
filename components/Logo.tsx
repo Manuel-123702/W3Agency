@@ -4,7 +4,7 @@ import Image from 'next/image';
 import logo from '@/images/logo.png';
 import Link from 'next/link';
 
-const Logo: React.FC<{ spanDesign?: string,className?: string }> = ({ className }) => (
+const Logo: React.FC<{ spanDesign?: string, className?: string }> = ({ className }) => (
     <Link href={"/"}>
         <Image src={logo} alt="Logo" className={cn('h-20 w-auto hover:scale-105 transition-transform', className)} />
     </Link>
