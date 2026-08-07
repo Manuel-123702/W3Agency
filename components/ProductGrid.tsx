@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import ProductCard from "./ProductCard";
 import { motion, AnimatePresence } from "motion/react";
-import { client } from "@/sanity/lib/client";
+import { safeClientFetch } from "@/sanity/lib/client";
 import NoProductAvailable from "./NoProductAvailable";
 import { Loader2 } from "lucide-react";
 import Container from "./Container";
@@ -14,9 +14,7 @@ import { Product } from "@/sanity.types";
 const ProductGrid = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
-  const [selectedTab, setSelectedTab] = useState(
-    productType[0]?.title || ""
-  );
+  const [selectedTab, setSelectedTab] = useState(productType[0]?.title || "");
 
   const query = `
     *[_type == "product" && variant == $variant] | order(name asc){
@@ -27,14 +25,14 @@ const ProductGrid = () => {
 
   const params = useMemo(
     () => ({ variant: selectedTab.toLowerCase() }),
-    [selectedTab]
+    [selectedTab],
   );
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await client.fetch(query, params);
+        const response = await safeClientFetch<Product[]>(query, params);
         setProducts(response);
       } catch (error) {
         console.log("Product fetching Error", error);
@@ -43,7 +41,7 @@ const ProductGrid = () => {
       }
     };
     fetchData();
-  }, [query, params]); 
+  }, [query, params]);
 
   return (
     <Container className="flex flex-col lg:px-0 my-10">

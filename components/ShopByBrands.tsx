@@ -4,7 +4,7 @@ import Link from "next/link";
 import { getAllBrands } from "@/sanity/queries";
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
-import { GitCompareArrows, Headset, ShieldCheck, Truck } from "lucide-react";
+import { GitCompareArrows, Headset, MessageCircleMore, ShieldCheck, Truck } from "lucide-react";
 
 const extraData = [
   {
@@ -23,9 +23,9 @@ const extraData = [
     icon: <Headset size={45} />,
   },
   {
-    title: "Secure Payment",
-    description: "Safe and reliable transactions",
-    icon: <ShieldCheck size={45} />,
+    title: "Private pricing",
+    description: "Discuss the best offer with our team through WhatsApp",
+    icon: <MessageCircleMore size={45} />,
   },
 ];
 

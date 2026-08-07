@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { assets } from "@/assets/assets";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
+import { buildWhatsAppUrl } from "@/lib/whatsapp";
 
 // Import all banner images
 import bannerImage1 from "../images/banner_2.png";
@@ -33,99 +34,51 @@ const HomeBanner = () => {
   const sliderData: Slide[] = [
     {
       id: 1,
-      title: "Welcome to W3Agency - Discover Upto 20% Off Of Amazing Deals!",
-      offer: "Hurry up! Only few left",
-      buttonText1: "Shop Gaming",
-      buttonText2: "Explore",
+      title: "Premium electronics, curated for modern buyers.",
+      offer: "Order and pay securely through WhatsApp",
+      buttonText1: "Explore collection",
+      buttonText2: "Order on WhatsApp",
       imgSrc: bannerImage2,
     },
     {
       id: 2,
-      title: "Experience Pure Electronics - Your Perfect Electronics Awaits!",
-      offer: "Limited Time Offer 20% Off",
-      buttonText1: "Buy now",
-      buttonText2: "Find more",
+      title: "Luxury tech essentials with polished presentation.",
+      offer: "Flexible pricing for business and personal orders",
+      buttonText1: "Shop now",
+      buttonText2: "Talk to us",
       imgSrc: bannerImage1,
     },
     {
       id: 3,
-      title: "Accessorize Your Gear - Premium Gaming Mice & Keyboards",
-      offer: "Exclusive 30% Off Today",
-      buttonText1: "Shop Accessories",
-      buttonText2: "See More",
+      title: "Elevated accessories for the ultimate workstation.",
+      offer: "From premium keyboards to refined devices",
+      buttonText1: "Discover accessories",
+      buttonText2: "View offers",
       imgSrc: bannerImage3,
     },
     {
       id: 4,
-      title: "Smartphones That Keep You Ahead",
-      offer: "Up to 25% Off Latest Phones",
-      buttonText1: "Shop Phones",
-      buttonText2: "Discover",
+      title: "Smartphones and gadgets that feel effortless.",
+      offer: "Private consultation for best-fit recommendations",
+      buttonText1: "See phones",
+      buttonText2: "Get advice",
       imgSrc: bannerImage4,
     },
     {
       id: 5,
-      title: "Watches That Match Your Lifestyle",
-      offer: "Flash Sale: 15% Off",
-      buttonText1: "Shop Watches",
-      buttonText2: "View Collection",
+      title: "Refined watches and lifestyle devices.",
+      offer: "A boutique experience for premium tech shoppers",
+      buttonText1: "Shop watches",
+      buttonText2: "Learn more",
       imgSrc: bannerImage5,
     },
     {
       id: 6,
-      title: "Laptop + Accessories Bundle - Perfect Combo!",
-      offer: "Save Up to 40%",
-      buttonText1: "Get Bundle",
-      buttonText2: "Learn More",
+      title: "Mobile workstations designed to impress.",
+      offer: "Tailored bundles for professionals and creators",
+      buttonText1: "View laptops",
+      buttonText2: "Request bundle",
       imgSrc: bannerImage6,
-    },
-    {
-      id: 7,
-      title: "Ultimate Gaming setup desktop, mouse & Accessories",
-      offer: "Limited Stock Available",
-      buttonText1: "Shop Setup",
-      buttonText2: "See Deals",
-      imgSrc: bannerImage7,
-    },
-    {
-      id: 8,
-      title: "Top Smartphones With Free Gifts",
-      offer: "Buy Now and Get Extra Accessories",
-      buttonText1: "Shop Phones",
-      buttonText2: "More Offers",
-      imgSrc: bannerImage8,
-    },
-    {
-      id: 9,
-      title: "Work & Play Laptops for Every Need",
-      offer: "Special Discount 20% Off",
-      buttonText1: "Shop Laptops",
-      buttonText2: "Check Deals",
-      imgSrc: bannerImage9,
-    },
-    {
-      id: 10,
-      title: "Gaming Accessories Mega Sale",
-      offer: "Up to 50% Off Gaming Gear",
-      buttonText1: "Shop Now",
-      buttonText2: "Explore All",
-      imgSrc: bannerImage10,
-    },
-    {
-      id: 11,
-      title: "Smartwatch Collection - Stay Connected",
-      offer: "Limited Edition Offers",
-      buttonText1: "Shop Smartwatches",
-      buttonText2: "View Collection",
-      imgSrc: bannerImage11,
-    },
-    {
-      id: 12,
-      title: "Mix & Match Tech Deals - Save More!",
-      offer: "Bundle Discounts Up To 35%",
-      buttonText1: "Shop Bundles",
-      buttonText2: "Discover",
-      imgSrc: bannerImage12,
     },
   ];
 
@@ -139,52 +92,68 @@ const HomeBanner = () => {
   }, [sliderData.length]);
 
   return (
-    <div className="overflow-hidden relative w-full">
+    <div className="relative w-full overflow-hidden">
       <div
         className="flex transition-transform duration-700 ease-in-out"
-        style={{ transform: `translateX(-${currentSlide * 100}%)` } as React.CSSProperties}
+        style={
+          {
+            transform: `translateX(-${currentSlide * 100}%)`,
+          } as React.CSSProperties
+        }
       >
         {sliderData.map((slide, index) => (
           <div
             key={slide.id}
-            className="flex flex-col-reverse md:flex-row items-center justify-between bg-linear-to-r from-sky-200 to-violet-200 py-7 md:px-14 px-5 mt-6 rounded-xl min-w-full"
+            className="mt-6 flex min-w-full flex-col-reverse items-center justify-between overflow-hidden rounded-[2rem] bg-gradient-to-br from-violet-950 via-indigo-900 to-purple-900 px-5 py-8 shadow-2xl md:flex-row md:px-14"
           >
-            <div className="md:pl-8 mt-0 md:mt-0">
-              <p className="md:text-base text-black pb-1">{slide.offer}</p>
-              <h1 className="max-w-lg md:text-[40px] text-white md:leading-12 text-2xl font-semibold">
+            <div className="mt-0 md:pl-8">
+              <span className="inline-flex rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-emerald-300">
+                WhatsApp ordering experience
+              </span>
+              <p className="pb-2 pt-4 text-sm font-semibold uppercase tracking-[0.3em] text-emerald-300">
+                {slide.offer}
+              </p>
+              <h1 className="max-w-xl text-2xl font-semibold text-white md:text-[38px] md:leading-[1.1]">
                 {slide.title}
               </h1>
-              <div className="flex items-center mt-4 md:mt-6 gap-4">
+              <div className="mt-4 flex flex-wrap items-center gap-4 md:mt-6">
                 <Link href={"/shop"}>
-                  <button className="md:px-10 px-7 md:py-2.5 py-2 border-2 border-[#9748FF] shadow-[inset_0px_-2px_0px_1px_#9748FF] bg-white group hover:bg-[#9748FF] transition duration-300 ease-in-out rounded-full text-black font-medium">
+                  <button className="rounded-full border border-white/20 bg-white px-6 py-2.5 font-medium text-slate-900 transition duration-300 hover:-translate-y-1 hover:bg-slate-100">
                     {slide.buttonText1}
                   </button>
                 </Link>
-                <button className="group flex items-center text-white gap-2 px-6 py-2.5 font-medium">
+                <a
+                  href={buildWhatsAppUrl({
+                    message:
+                      "Hello! I would like to discuss pricing, availability, and payment for my products over WhatsApp.",
+                  })}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group flex items-center gap-2 px-2 py-2 text-sm font-medium text-white"
+                >
                   {slide.buttonText2}
                   <Image
-                    className="group-hover:translate-x-1 transition"
+                    className="transition group-hover:translate-x-1"
                     src={assets.arrow_icon}
                     alt="arrow_icon"
                     width={16}
                     height={16}
                   />
-                </button>
+                </a>
               </div>
             </div>
-            <div className="flex items-center flex-1 justify-center">
+            <div className="flex flex-1 items-center justify-center">
               <Image
                 src={slide.imgSrc}
                 alt={`Slide ${index + 1}`}
-                width={260}
-                height={400}
-                className="object-cover rounded-xl"
+                width={400}
+                height={500}
+                className="animate-float-soft rounded-[1.5rem] object-cover shadow-2xl"
               />
             </div>
           </div>
         ))}
       </div>
-      {/* Pagination dots removed */}
     </div>
   );
 };

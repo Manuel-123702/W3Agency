@@ -4,16 +4,17 @@ import Image from "next/image";
 import React from "react";
 import Link from "next/link";
 import { StarIcon } from "@sanity/icons";
-import { Flame } from "lucide-react";
+import { Flame, MessageCircleMore, Sparkles } from "lucide-react";
 import PriceView from "./PriceView";
 import Title from "./Title";
 import ProductSideMenu from "./ProductSideMenu";
 import AddToCartButton from "./AddToCartButton";
+import { buildWhatsAppUrl } from "@/lib/whatsapp";
 
 const ProductCard = ({ product }: { product: Product }) => {
   return (
-    <div className="text-sm border rounded-md border-darkBlue/20 group bg-white">
-      <div className="relative group overflow-hidden bg-shop_light_bg">
+    <div className="group overflow-hidden rounded-2xl border border-slate-200 bg-white text-sm shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+      <div className="relative overflow-hidden bg-linear-to-br from-slate-50 via-white to-slate-100">
         {product?.images && (
           <Link href={`/product/${product?.slug?.current}`}>
             <Image
@@ -22,15 +23,14 @@ const ProductCard = ({ product }: { product: Product }) => {
               width={500}
               height={500}
               priority
-              className={`w-full h-64 object-contain overflow-hidden transition-transform bg-shop_light_bg duration-500 
-              ${product?.stock !== 0 ? "group-hover:scale-105" : "opacity-50"}`}
+              className={`h-64 w-full object-contain overflow-hidden bg-transparent transition duration-500 ${product?.stock !== 0 ? "group-hover:scale-105" : "opacity-50"}`}
             />
           </Link>
         )}
         <ProductSideMenu product={product} />
         {product?.status === "sale" ? (
-          <p className="absolute top-2 left-2 z-10 text-xs border bg-linear-to-r from-purple-400 to-blue-500 hover:from-pink-500 hover:to-purple-600 text-white font-bold py-1 px-3 rounded-full shadow-lg transform transition-all duration-500 ease-in-out hover:scale-110 hover:brightness-110 hover:animate-pulse active:animate-bounce">
-            Sale 
+          <p className="absolute left-2 top-2 z-10 rounded-full border border-emerald-500/20 bg-emerald-600 px-3 py-1 text-xs font-semibold text-white shadow-lg">
+            Featured Deal
           </p>
         ) : (
           <Link
@@ -45,7 +45,7 @@ const ProductCard = ({ product }: { product: Product }) => {
           </Link>
         )}
       </div>
-      <div className="p-3 flex flex-col gap-2">
+      <div className="flex flex-col gap-2 p-4">
         {product?.categories && (
           <p className="uppercase line-clamp-1 text-xs font-medium text-lightText">
             {product.categories.map((cat) => cat).join(", ")}
@@ -57,9 +57,7 @@ const ProductCard = ({ product }: { product: Product }) => {
             {[...Array(5)].map((_, index) => (
               <StarIcon
                 key={index}
-                className={
-                  index < 4 ? "text-yellow-400" : " text-lightText"
-                }
+                className={index < 4 ? "text-yellow-400" : " text-lightText"}
                 fill={index < 4 ? "#fbbf24" : "#ababab"}
               />
             ))}
@@ -67,10 +65,13 @@ const ProductCard = ({ product }: { product: Product }) => {
           <p className="text-lightText text-xs tracking-wide">5 Reviews</p>
         </div>
 
-        <div className="flex items-center gap-2.5">
-          <p className="font-medium">In Stock</p>
+        <div className="flex items-center gap-2.5 rounded-full bg-slate-50 px-3 py-2 text-sm">
+          <Sparkles className={`h-4 w-4 ${product?.stock === 0 ? "text-red-600" : "text-emerald-600"}`} />
+          <p className={`font-medium ${product?.stock === 0 ? "text-red-600" : "text-slate-700"}`}>
+            {(product?.stock as number) > 0 ? "In Stock" : "Out of Stock"}
+          </p>
           <p
-            className={`${product?.stock === 0 ? "text-red-600" : "text-blue-400 font-semibold"}`}
+            className={`${product?.stock === 0 ? "text-red-600" : "font-semibold text-slate-900"}`}
           >
             {(product?.stock as number) > 0 ? product?.stock : "unavailable"}
           </p>
@@ -81,7 +82,20 @@ const ProductCard = ({ product }: { product: Product }) => {
           discount={product?.discount}
           className="text-sm"
         />
-        <AddToCartButton product={product} className="w-36 rounded-full" />
+        <div className="flex flex-col gap-2">
+          <AddToCartButton product={product} className="w-full rounded-full" />
+          <a
+            href={buildWhatsAppUrl({
+              message: `Hello! I would like to know more about ${product?.name} and place an order through WhatsApp.`,
+            })}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center justify-center gap-2 rounded-full border border-emerald-600 px-3 py-2 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-50"
+          >
+            <MessageCircleMore className="h-4 w-4" />
+            Order on WhatsApp
+          </a>
+        </div>
       </div>
     </div>
   );

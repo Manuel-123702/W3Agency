@@ -5,9 +5,15 @@ import ImageView from "@/components/ImageView";
 import PriceView from "@/components/PriceView";
 import ProductCharacteristics from "@/components/ProductCharacteristics";
 import ProductTabs from "@/components/ProductTabs";
-import { client } from "@/sanity/lib/client";
+import { safeClientFetch } from "@/sanity/lib/client";
 import { getProductBySlug } from "@/sanity/queries";
-import { CornerDownLeft, StarIcon, Truck } from "lucide-react";
+import { buildWhatsAppUrl } from "@/lib/whatsapp";
+import {
+  CornerDownLeft,
+  MessageCircleMore,
+  StarIcon,
+  Truck,
+} from "lucide-react";
 import { notFound } from "next/navigation";
 import React from "react";
 import { FaRegQuestionCircle } from "react-icons/fa";
@@ -26,7 +32,7 @@ const SingleProductPage = async ({
   if (!product) {
     return notFound();
   }
-  const reviews = await client.fetch(
+  const reviews = await safeClientFetch(
     `*[_type == "review" && product._ref == $productId] | order(date desc){
     _id,
     name,
@@ -34,20 +40,17 @@ const SingleProductPage = async ({
     comment,
     date
   }`,
-    { productId: product._id }
+    { productId: product._id },
   );
 
   return (
     <Container>
-
       <div className="flex flex-col -mt-12 md:flex-row gap-10">
-
         {product?.images && (
           <ImageView images={product?.images} isStock={product?.stock} />
         )}
 
         <div className="w-full md:w-1/2 flex flex-col gap-5">
-
           <div className="space-y-1">
             <h2 className="text-2xl font-bold">{product?.name}</h2>
 
@@ -76,24 +79,35 @@ const SingleProductPage = async ({
             />
 
             <p
-              className={`px-4 py-1.5 text-sm text-center inline-block font-semibold rounded-lg ${product?.stock === 0
-                ? "bg-red-100 text-gray-600"
-                : "text-gray-600 bg-green-100"
-                }`}
+              className={`px-4 py-1.5 text-sm text-center inline-block font-semibold rounded-lg ${
+                product?.stock === 0
+                  ? "bg-red-100 text-gray-600"
+                  : "text-gray-600 bg-green-100"
+              }`}
             >
               {(product?.stock as number) > 0 ? "In Stock" : "Out of Stock"}
             </p>
           </div>
 
-          <div className="flex items-center gap-2.5 lg:gap-3">
+          <div className="flex flex-wrap items-center gap-2.5 lg:gap-3">
             <AddToCartButton product={product} />
             <FavoriteButton product={product} />
+            <a
+              href={buildWhatsAppUrl({
+                message: `Hello! I want to know more about ${product?.name} and place an order through WhatsApp.`,
+              })}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-emerald-600 px-4 py-2.5 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-50"
+            >
+              <MessageCircleMore className="h-4 w-4" />
+              Order on WhatsApp
+            </a>
           </div>
 
           <ProductCharacteristics product={product} />
 
           <div className="flex flex-wrap items-center justify-between gap-2.5 border-b border-gray-200 py-5 -mt-2">
-
             <div className="flex items-center gap-2 text-sm hover:text-red-600 hoverEffect">
               <RxBorderSplit className="text-lg" />
               <p>Compare color</p>
@@ -116,7 +130,6 @@ const SingleProductPage = async ({
           </div>
 
           <div className="flex flex-col">
-
             <div className="border border-lightColor/25 border-b-0 p-3 flex items-center gap-2.5">
               <Truck size={30} className="text-shop_orange" />
               <div>
@@ -137,16 +150,13 @@ const SingleProductPage = async ({
                 </p>
               </div>
             </div>
-
           </div>
         </div>
       </div>
 
       <div className="w-full md:w-1/2 mt-10">
-
         <ProductTabs product={product} reviews={reviews} />
       </div>
-
     </Container>
   );
 };

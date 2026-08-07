@@ -7,7 +7,7 @@ import CategoryList from "./shop/CategoryList";
 import { useSearchParams } from "next/navigation";
 import BrandList from "./shop/BrandList";
 import PriceList from "./shop/PriceList";
-import { client } from "@/sanity/lib/client";
+import { safeClientFetch } from "@/sanity/lib/client";
 import { Loader2 } from "lucide-react";
 import NoProductAvailable from "./NoProductAvailable";
 import ProductCard from "./ProductCard";
@@ -25,9 +25,11 @@ const Shop = ({ categories, brands }: Props) => {
   const queryParam = searchParams?.get("query") || "";
 
   const [selectedCategory, setSelectedCategory] = useState<string | null>(
-    categoryParams
+    categoryParams,
   );
-  const [selectedBrand, setSelectedBrand] = useState<string | null>(brandParams);
+  const [selectedBrand, setSelectedBrand] = useState<string | null>(
+    brandParams,
+  );
   const [selectedPrice, setSelectedPrice] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>(queryParam);
 
@@ -60,7 +62,7 @@ const Shop = ({ categories, brands }: Props) => {
           }
         `;
 
-        const data = await client.fetch(groqQuery, { minPrice, maxPrice });
+        const data = await safeClientFetch(groqQuery, { minPrice, maxPrice });
         setProducts(data);
       } catch (err) {
         console.error("Shop product fetching Error", err);

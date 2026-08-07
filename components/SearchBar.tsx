@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { client } from "@/sanity/lib/client";
+import { safeClientFetch } from "@/sanity/lib/client";
 import AddToCartButton from "@/components/AddToCartButton";
 import PriceView from "@/components/PriceView";
 
@@ -75,7 +75,8 @@ const SearchBar = () => {
   // Fetch trending products
   useEffect(() => {
     const fetchTrending = async () => {
-      const data = await client.fetch(`*[_type=="product"] | order(_createdAt desc)[0...5]{
+      const data =
+        await safeClientFetch(`*[_type=="product"] | order(_createdAt desc)[0...5]{
         _id, name, slug, price, discount, stock,
         "image": images[0].asset->url
       }`);
@@ -95,7 +96,7 @@ const SearchBar = () => {
 
       setLoading(true);
       try {
-        const data: Product[] = await client.fetch(
+        const data: Product[] = await safeClientFetch(
           `*[_type == "product" && (name match $search || description match $search)]{
               _id,
               name,
@@ -105,7 +106,7 @@ const SearchBar = () => {
               stock,
               "image": images[0].asset->url
           }[0...6]`,
-          { search: `*${query}*` } // ✅ Key must match $search
+          { search: `*${query}*` }, // ✅ Key must match $search
         );
 
         setProducts(data);
@@ -152,17 +153,30 @@ const SearchBar = () => {
     if (!query) return text;
     const regex = new RegExp(`(${query})`, "gi");
     return text.split(regex).map((part, i) =>
-      regex.test(part) ? <span key={i} className="bg-yellow-200">{part}</span> : part
+      regex.test(part) ? (
+        <span key={i} className="bg-yellow-200">
+          {part}
+        </span>
+      ) : (
+        part
+      ),
     );
   };
 
   return (
     <div ref={wrapperRef} className="relative px-1">
-
       {/* Search input */}
-      <form className={`flex items-center overflow-hidden w-11 h-11 bg-blue-500 rounded-full transition-all duration-300 ${open ? "w-64" : "hover:w-64"}`}>
+      <form
+        className={`flex items-center overflow-hidden w-11 h-11 bg-blue-500 rounded-full transition-all duration-300 ${open ? "w-64" : "hover:w-64"}`}
+      >
         <div className="flex items-center justify-center pl-3">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" className="text-white fill-current">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="20"
+            height="20"
+            className="text-white fill-current"
+          >
             <path d="M18.9,16.776A10.539,10.539,0,1,0,16.776,18.9l5.1,5.1L24,21.88ZM10.5,18A7.5,7.5,0,1,1,18,10.5,7.507,7.507,0,0,1,10.5,18Z"></path>
           </svg>
         </div>
@@ -181,7 +195,6 @@ const SearchBar = () => {
       {open && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex justify-center pt-20">
           <div className="bg-white w-full max-w-3xl rounded-lg shadow-xl max-h-[80vh] overflow-y-auto">
-
             {/* Header */}
             <div className="flex justify-between p-4 border-b">
               <h2 className="font-semibold text-violet-600">Search Products</h2>
@@ -202,7 +215,6 @@ const SearchBar = () => {
             </div>
 
             <div className="relative">
-
               {/* Suggestions - now professional, does NOT cover results */}
               {query && suggestions.length > 0 && (
                 <div className="bg-white border-b shadow-sm">
@@ -291,7 +303,6 @@ const SearchBar = () => {
                   ))}
                 </div>
               )}
-
             </div>
           </div>
         </div>

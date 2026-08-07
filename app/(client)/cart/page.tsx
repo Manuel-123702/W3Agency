@@ -1,9 +1,5 @@
 "use client";
 
-import {
-  createCheckoutSession,
-  Metadata,
-} from "@/actions/createCheckoutSession";
 import Container from "@/components/Container";
 import EmptyCart from "@/components/EmptyCart";
 import NoAccess from "@/components/NoAccess";
@@ -23,11 +19,12 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Address } from "@/sanity.types";
-import { client } from "@/sanity/lib/client";
+import { safeClientFetch } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
+import { buildCartQuoteMessage, buildWhatsAppUrl } from "@/lib/whatsapp";
 import useStore from "@/store";
 import { useAuth, useUser } from "@clerk/nextjs";
-import { ShoppingBag, Trash } from "lucide-react";
+import { MessageCircleMore, ShoppingBag, Trash } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -52,7 +49,7 @@ const CartPage = () => {
     setLoading(true);
     try {
       const query = `*[_type=="address"] | order(publishedAt desc)`;
-      const data = await client.fetch(query);
+      const data = await safeClientFetch(query);
       setAddresses(data);
       const defaultAddress = data.find((addr: Address) => addr.default);
       if (defaultAddress) {
@@ -79,22 +76,27 @@ const CartPage = () => {
     }
   };
 
-  const handleCheckout = async () => {
+  const handleQuoteRequest = () => {
     setLoading(true);
     try {
-      const metadata: Metadata = {
-        orderNumber: crypto.randomUUID(),
-        customerName: user?.fullName ?? "Unknown",
-        customerEmail: user?.emailAddresses[0]?.emailAddress ?? "Unknown",
-        clerkUserId: user?.id,
-        address: selectedAddress,
-      };
-      const checkoutUrl = await createCheckoutSession(groupedItems, metadata);
-      if (checkoutUrl) {
-        window.location.href = checkoutUrl;
-      }
+      const items = groupedItems.map((item) => ({
+        name: item.product?.name || "Product",
+        quantity: item.quantity,
+        price: item.product?.price as number | undefined,
+      }));
+      const total = getTotalPrice();
+      const message = buildCartQuoteMessage({
+        items,
+        total,
+        customerName:
+          user?.fullName || user?.emailAddresses[0]?.emailAddress || "Guest",
+      });
+      const url = buildWhatsAppUrl({ message });
+      window.open(url, "_blank", "noopener,noreferrer");
+      toast.success("Your order request has been prepared for WhatsApp.");
     } catch (error) {
-      console.error("Error creating checkout session:", error);
+      console.error("Error preparing quote request:", error);
+      toast.error("We could not prepare your quote request. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -107,7 +109,7 @@ const CartPage = () => {
             <>
               <div className="flex items-center gap-2 py-5">
                 <ShoppingBag className="text-violet-500" />
-                <Title className="text-violet-500">Shopping Cart</Title>
+                <Title className="text-violet-500">Shopping shortlist</Title>
               </div>
               <div className="grid lg:grid-cols-3 md:gap-8">
                 <div className="lg:col-span-2 rounded-lg">
@@ -207,10 +209,18 @@ const CartPage = () => {
                 </div>
                 <div>
                   <div className="lg:col-span-1">
-                    <div className="hidden md:inline-block w-full bg-white p-6 rounded-lg border">
-                      <h2 className="text-xl text-blue-400 font-semibold mb-4">
-                        Order Summary
-                      </h2>
+                    <div className="hidden md:inline-block w-full bg-white p-6 rounded-lg border shadow-sm">
+                      <div className="flex items-center gap-2 mb-4">
+                        <MessageCircleMore className="text-emerald-600" />
+                        <h2 className="text-xl text-slate-900 font-semibold">
+                          Order & payment via WhatsApp
+                        </h2>
+                      </div>
+                      <p className="mb-4 text-sm text-slate-600">
+                        Add your preferred products here, then open WhatsApp so
+                        we can confirm pricing, availability, delivery details,
+                        and payment.
+                      </p>
                       <div className="space-y-4">
                         <div className="flex items-center justify-between">
                           <span>SubTotal</span>
@@ -231,12 +241,14 @@ const CartPage = () => {
                           />
                         </div>
                         <Button
-                          className="w-full rounded-full font-semibold tracking-wide hoverEffect"
+                          className="w-full rounded-full font-semibold tracking-wide hoverEffect bg-emerald-600 hover:bg-emerald-700"
                           size="lg"
                           disabled={loading}
-                          onClick={handleCheckout}
+                          onClick={handleQuoteRequest}
                         >
-                          {loading ? "Please wait..." : "Proceed to Checkout"}
+                          {loading
+                            ? "Opening WhatsApp..."
+                            : "Chat on WhatsApp to pay & order"}
                         </Button>
                       </div>
                     </div>
@@ -281,10 +293,9 @@ const CartPage = () => {
                               className="w-full bg-violet-400 hover:bg-violet-600 hover:text-white text-white mt-4"
                               asChild
                             >
-                              <Link href="/address">
-                                Add New Address
-                              </Link>
-                            </Button>                          </CardContent>
+                              <Link href="/address">Add New Address</Link>
+                            </Button>{" "}
+                          </CardContent>
                         </Card>
                       </div>
                     )}
@@ -314,12 +325,14 @@ const CartPage = () => {
                         />
                       </div>
                       <Button
-                        className="w-full rounded-full font-semibold tracking-wide hoverEffect"
+                        className="w-full rounded-full font-semibold tracking-wide hoverEffect bg-emerald-600 hover:bg-emerald-700"
                         size="lg"
                         disabled={loading}
-                        onClick={handleCheckout}
+                        onClick={handleQuoteRequest}
                       >
-                        {loading ? "Please wait..." : "Proceed to Checkout"}
+                        {loading
+                          ? "Opening WhatsApp..."
+                          : "Chat on WhatsApp to pay & order"}
                       </Button>
                     </div>
                   </div>

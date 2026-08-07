@@ -11,7 +11,7 @@ import { SignInButton, SignUpButton } from "@clerk/nextjs";
 import { Button } from "./ui/button";
 
 const NoAccess = ({
-  details = "Log in to view your cart items and checkout. Don't miss out on your favorite products!",
+  details = "Sign in to save your favorites, keep your order flow, and continue through WhatsApp for payment and delivery.",
 }: {
   details?: string;
 }) => {
@@ -21,7 +21,7 @@ const NoAccess = ({
         <CardHeader className="flex items-center flex-col">
           <Logo />
           <CardTitle className="text-2xl font-bold text-center">
-            Welcome Back!
+            Continue securely
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">

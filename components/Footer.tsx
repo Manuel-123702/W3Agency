@@ -19,8 +19,7 @@ const Footer = () => {
           <div className="space-y-4">
             <Logo />
             <SubText className="py-3">
-              Discover curated tech and furniture collections at W3Agency, blending style
-              and comfort to elevate your living spaces.
+              Discover premium electronics, workstations, and lifestyle tech at W3Agency with a polished shopping experience and private WhatsApp pricing support.
             </SubText>
             <SocialMedia />
           </div>

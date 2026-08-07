@@ -3,7 +3,7 @@ import { Category, Product } from "@/sanity.types";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
-import { client } from "@/sanity/lib/client";
+import { safeClientFetch } from "@/sanity/lib/client";
 import { AnimatePresence, motion } from "motion/react";
 import { Loader2 } from "lucide-react";
 import NoProductAvailable from "./NoProductAvailable";
@@ -31,7 +31,7 @@ const CategoryProducts = ({ categories, slug }: Props) => {
         *[_type == 'product' && references(*[_type == "category" && slug.current == $categorySlug]._id)] | order(name asc){
         ...,"categories": categories[]->title}
       `;
-      const data = await client.fetch(query, { categorySlug });
+      const data = await safeClientFetch(query, { categorySlug });
       setProducts(data);
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -52,8 +52,10 @@ const CategoryProducts = ({ categories, slug }: Props) => {
             onClick={() => handleCategoryChange(item?.slug?.current as string)}
             key={item?._id}
             className={`bg-transparent border-0 p-0 transition-colors rounded-none text-gray-700 shadow-none hover:bg-violet-300 hover:text-white font-semibold hoverEffect border-b last:border-b-0 capitalize
-                 ${item?.slug?.current === currentSlug && 
-                  "bg-blue-400 text-white hover:bg-blue-500"}`}
+                 ${
+                   item?.slug?.current === currentSlug &&
+                   "bg-blue-400 text-white hover:bg-blue-500"
+                 }`}
           >
             <p className="w-full text-left px-2">{item?.title}</p>
           </Button>
