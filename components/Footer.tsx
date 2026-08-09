@@ -87,11 +87,31 @@ const Footer = () => {
         </div>
 
         {/* BOTTOM COPYRIGHT */}
-        <div className="py-12 border-t text-center text-sm text-gray-600">
-          <div>
-            © {new Date().getFullYear()}
-            <span className="text-violet-800"> W3A</span>
-            <span className="text-blue-500">gency</span>. All rights reserved.
+        <div className="py-8 border-t border-slate-200">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="text-center md:text-left">
+              <p className="text-sm text-slate-600">
+                © {new Date().getFullYear()}{" "}
+                <span className="font-bold text-violet-600">SKY</span>
+                <span className="font-bold text-blue-500">Electronics</span>
+                . All rights reserved.
+              </p>
+              <p className="text-xs text-slate-500 mt-1">
+                Premium electronics, home appliances, and tech gear in Cameroon.
+              </p>
+            </div>
+            
+            <div className="flex items-center gap-6 text-sm text-slate-600">
+              <Link href="/privacy" className="hover:text-violet-600 transition-colors">
+                Privacy Policy
+              </Link>
+              <Link href="/terms" className="hover:text-violet-600 transition-colors">
+                Terms of Service
+              </Link>
+              <Link href="/contact" className="hover:text-violet-600 transition-colors">
+                Contact Us
+              </Link>
+            </div>
           </div>
         </div>
       </Container>

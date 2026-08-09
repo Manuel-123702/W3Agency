@@ -3,39 +3,19 @@ import { defineArrayMember, defineField, defineType } from "sanity";
 
 export const orderType = defineType({
   name: "order",
-  title: "Order",
+  title: "WhatsApp Quote Request",
   type: "document",
   icon: BasketIcon,
   fields: [
     defineField({
       name: "orderNumber",
-      title: "Order Number",
-      type: "string",
-      validation: (Rule) => Rule.required(),
-    }),
-    {
-      name: "invoice",
-      type: "object",
-      fields: [
-        { name: "id", type: "string" },
-        { name: "number", type: "string" },
-        { name: "hosted_invoice_url", type: "url" },
-      ],
-    },
-    defineField({
-      name: "stripeCheckoutSessionId",
-      title: "Stripe Checkout Session ID",
-      type: "string",
-    }),
-    defineField({
-      name: "stripeCustomerId",
-      title: "Stripe Customer ID",
+      title: "Quote Number",
       type: "string",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "clerkUserId",
-      title: "Store User ID",
+      title: "User ID",
       type: "string",
       validation: (Rule) => Rule.required(),
     }),
@@ -52,10 +32,9 @@ export const orderType = defineType({
       validation: (Rule) => Rule.required().email(),
     }),
     defineField({
-      name: "stripePaymentIntentId",
-      title: "Stripe Payment Intent ID",
+      name: "phone",
+      title: "Customer Phone",
       type: "string",
-      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "products",
@@ -128,15 +107,16 @@ export const orderType = defineType({
     }),
     defineField({
       name: "status",
-      title: "Order Status",
+      title: "Quote Status",
       type: "string",
       options: {
         list: [
           { title: "Pending", value: "pending" },
+          { title: "WhatsApp Sent", value: "whatsapp_sent" },
+          { title: "In Discussion", value: "in_discussion" },
+          { title: "Confirmed", value: "confirmed" },
           { title: "Processing", value: "processing" },
-          { title: "Paid", value: "paid" },
           { title: "Shipped", value: "shipped" },
-          { title: "Out for Delivery", value: "out_for_delivery" },
           { title: "Delivered", value: "delivered" },
           { title: "Cancelled", value: "cancelled" },
         ],

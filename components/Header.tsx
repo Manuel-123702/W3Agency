@@ -15,15 +15,24 @@ import { getMyOrders } from "@/sanity/queries";
 
 const Header = async () => {
   const { userId } = await auth();
-  const user = await currentUser();
-
-  // Check for the admin role we set in Clerk Metadata
-  const isAdmin = user?.publicMetadata?.role === "admin";
+  let user = null;
+  let isAdmin = false;
+  
+  try {
+    user = await currentUser();
+    isAdmin = user?.publicMetadata?.role === "admin";
+  } catch (error) {
+    console.error("Error fetching current user:", error);
+  }
 
   let orders = null;
 
   if (userId) {
-    orders = await getMyOrders(userId);
+    try {
+      orders = await getMyOrders(userId);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
   }
 
   return (

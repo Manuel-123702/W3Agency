@@ -12,6 +12,8 @@
  * ---------------------------------------------------------------------------------
  */
 
+export declare const internalGroqTypeReferenceTo: unique symbol;
+
 // Source: schema.json
 export type Address = {
   _id: string;
@@ -68,13 +70,13 @@ export type Order = {
     name?: string;
   };
   status?:
-  | "pending"
-  | "processing"
-  | "paid"
-  | "shipped"
-  | "out_for_delivery"
-  | "delivered"
-  | "cancelled";
+    | "pending"
+    | "processing"
+    | "paid"
+    | "shipped"
+    | "out_for_delivery"
+    | "delivered"
+    | "cancelled";
   orderDate?: string;
 };
 
@@ -118,37 +120,37 @@ export type Blog = {
 
 export type BlockContent = Array<
   | {
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+      listItem?: "bullet";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
       _key: string;
-    }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
-    listItem?: "bullet";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }
+    }
   | {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-    _key: string;
-  }
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+      _key: string;
+    }
 >;
 
 export type SanityImageCrop = {
@@ -433,8 +435,6 @@ export type AllSanitySchemaTypes =
   | SanityImageAsset
   | Geopoint;
 
-export declare const internalGroqTypeReferenceTo: unique symbol;
-
 // Source: sanity/queries/query.ts
 // Variable: BRANDS_QUERY
 // Query: *[_type=='brand'] | order(name asc)
@@ -669,13 +669,13 @@ export type MY_ORDERS_QUERY_RESULT = Array<{
     name?: string;
   };
   status?:
-  | "cancelled"
-  | "delivered"
-  | "out_for_delivery"
-  | "paid"
-  | "pending"
-  | "processing"
-  | "shipped";
+    | "cancelled"
+    | "delivered"
+    | "out_for_delivery"
+    | "paid"
+    | "pending"
+    | "processing"
+    | "shipped";
   orderDate?: string;
 }>;
 
@@ -830,6 +830,15 @@ export type OTHERS_BLOG_QUERY_RESULT = Array<{
   categories: null;
 }>;
 
+// Source: sanity/queries/query.ts
+// Variable: ALL_PRODUCTS
+// Query: *[_type == "product"] | order(_createdAt desc){    _id,    name,    "image": images[0].asset->url  }
+export type ALL_PRODUCTS_RESULT = Array<{
+  _id: string;
+  name: string | null;
+  image: string | null;
+}>;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
@@ -844,5 +853,6 @@ declare module "@sanity/client" {
     '*[_type == "blog" && slug.current == $slug][0]{\n    ...,\n    author->{\n      name,\n      image\n    },\n    blogcategories[]->{\n      title,\n      "slug": slug.current\n    }\n  }': SINGLE_BLOG_QUERY_RESULT;
     '*[_type == "blog"]{\n    blogcategories[]->{\n      ...\n    }\n  }': BLOG_CATEGORIES_RESULT;
     '*[\n    _type == "blog" &&\n    defined(slug.current) &&\n    slug.current != $slug\n  ] | order(publishedAt desc)[0...$quantity]{\n    ...,\n    publishedAt,\n    title,\n    mainImage,\n    slug,\n    author->{\n      name,\n      image\n    },\n    categories[]->{\n      title,\n      "slug": slug.current\n    }\n  }': OTHERS_BLOG_QUERY_RESULT;
+    '\n  *[_type == "product"] | order(_createdAt desc){\n    _id,\n    name,\n    "image": images[0].asset->url\n  }\n': ALL_PRODUCTS_RESULT;
   }
 }

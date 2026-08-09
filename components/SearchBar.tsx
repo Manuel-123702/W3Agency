@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { safeClientFetch } from "@/sanity/lib/client";
+import { urlFor } from "@/sanity/lib/image";
 import AddToCartButton from "@/components/AddToCartButton";
 import PriceView from "@/components/PriceView";
 
@@ -10,7 +11,7 @@ interface Product {
   _id: string;
   name: string;
   slug: { current: string };
-  image: string;
+  images?: any[];
   price: number;
   discount?: number;
   stock?: number;
@@ -242,44 +243,50 @@ const SearchBar = () => {
                   </p>
                 )}
 
-                {products.map((p) => (
-                  <div key={p._id} className="flex gap-4 p-4 border-b">
-                    <img
-                      src={p.image || "/placeholder.png"}
-                      alt={p.name || "Product image"}
-                      className="w-20 h-20 rounded object-cover"
-                    />
-                    <div className="flex-1">
-                      <p
-                        onClick={() => handleClickProduct(p)}
-                        className="cursor-pointer font-medium"
-                      >
-                        {p.name}
-                      </p>
-                      <AddToCartButton product={p as any} />
+                {products.map((p) => {
+                  const imageUrl = p.images && p.images[0] ? urlFor(p.images[0]).url() : "/placeholder.png";
+                  return (
+                    <div key={p._id} className="flex gap-4 p-4 border-b">
+                      <img
+                        src={imageUrl}
+                        alt={p.name || "Product image"}
+                        className="w-20 h-20 rounded object-cover"
+                      />
+                      <div className="flex-1">
+                        <p
+                          onClick={() => handleClickProduct(p)}
+                          className="cursor-pointer font-medium"
+                        >
+                          {p.name}
+                        </p>
+                        <AddToCartButton product={p as any} />
+                      </div>
+                      <PriceView price={p.price} discount={p.discount} />
                     </div>
-                    <PriceView price={p.price} discount={p.discount} />
-                  </div>
-                ))}
+                  );
+                })}
               </div>
               {/* Recent searches (only if query empty) */}
               {!query && recentSearches.length > 0 && (
                 <div className="p-4 border-b">
                   <p className="font-semibold text-violet-600 mb-2">Recent</p>
-                  {recentSearches.map((item) => (
-                    <div
-                      key={item._id}
-                      onClick={() => handleClickProduct(item)}
-                      className="flex items-center gap-4 py-2 cursor-pointer hover:bg-gray-100 rounded"
-                    >
-                      <img
-                        src={item.image || "/placeholder.png"}
-                        alt={item.name || "Product image"}
-                        className="w-12 h-12 object-cover rounded bg-gray-100"
-                      />
-                      <p className="text-sm">{item.name}</p>
-                    </div>
-                  ))}
+                  {recentSearches.map((item) => {
+                    const imageUrl = item.images && item.images[0] ? urlFor(item.images[0]).url() : "/placeholder.png";
+                    return (
+                      <div
+                        key={item._id}
+                        onClick={() => handleClickProduct(item)}
+                        className="flex items-center gap-4 py-2 cursor-pointer hover:bg-gray-100 rounded"
+                      >
+                        <img
+                          src={imageUrl}
+                          alt={item.name || "Product image"}
+                          className="w-12 h-12 object-cover rounded bg-gray-100"
+                        />
+                        <p className="text-sm">{item.name}</p>
+                      </div>
+                    );
+                  })}
                 </div>
               )}
 
@@ -287,20 +294,23 @@ const SearchBar = () => {
               {!query && (
                 <div className="p-4">
                   <p className="font-semibold text-violet-600 mb-2">Trending</p>
-                  {trending.map((p) => (
-                    <div
-                      key={p._id}
-                      onClick={() => handleClickProduct(p)}
-                      className="flex gap-4 py-3 border-b cursor-pointer"
-                    >
-                      <img
-                        src={p.image || "/placeholder.png"}
-                        alt={p.name || "Product image"}
-                        className="w-16 h-16"
-                      />
-                      <p>{p.name}</p>
-                    </div>
-                  ))}
+                  {trending.map((p) => {
+                    const imageUrl = p.images && p.images[0] ? urlFor(p.images[0]).url() : "/placeholder.png";
+                    return (
+                      <div
+                        key={p._id}
+                        onClick={() => handleClickProduct(p)}
+                        className="flex gap-4 py-3 border-b cursor-pointer"
+                      >
+                        <img
+                          src={imageUrl}
+                          alt={p.name || "Product image"}
+                          className="w-16 h-16"
+                        />
+                        <p>{p.name}</p>
+                      </div>
+                    );
+                  })}
                 </div>
               )}
             </div>
