@@ -14,22 +14,24 @@ import { buildWhatsAppUrl } from "@/lib/whatsapp";
 const ProductCard = ({ product }: { product: Product }) => {
   return (
     <div className="group overflow-hidden rounded-2xl border border-slate-200 bg-white text-sm shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
-      <div className="relative overflow-hidden bg-linear-to-br from-slate-50 via-white to-slate-100">
+      <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-slate-50 via-white to-slate-100">
         {product?.images && (
-          <Link href={`/product/${product?.slug?.current}`}>
-            <Image
-              src={urlFor(product.images[0]).url()}
-              alt="productImage"
-              width={500}
-              height={500}
-              priority
-              className={`h-64 w-full object-contain overflow-hidden bg-transparent transition duration-500 ${product?.stock !== 0 ? "group-hover:scale-105" : "opacity-50"}`}
-            />
+          <Link href={`/product/${product?.slug?.current}`} className="block h-full w-full">
+            <div className="relative h-full w-full flex items-center justify-center p-6">
+              <Image
+                src={urlFor(product.images[0]).url()}
+                alt="productImage"
+                width={600}
+                height={500}
+                priority
+                className={`max-h-full max-w-full object-contain transition duration-500 ${product?.stock !== 0 ? "group-hover:scale-110" : "opacity-50"}`}
+              />
+            </div>
           </Link>
         )}
         <ProductSideMenu product={product} />
         {product?.status === "sale" ? (
-          <p className="absolute left-2 top-2 z-10 rounded-full border border-emerald-500/20 bg-emerald-600 px-3 py-1 text-xs font-semibold text-white shadow-lg">
+          <p className="absolute left-2 top-2 z-10 rounded-full border border-blue-500/30 bg-blue-600 px-3 py-1 text-xs font-semibold text-white shadow-lg">
             Featured Deal
           </p>
         ) : (

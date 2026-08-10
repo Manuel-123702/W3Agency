@@ -1,7 +1,13 @@
 import { defineQuery } from "next-sanity";
 
-// Fetch all brands, ordered by name
-const BRANDS_QUERY = defineQuery(`*[_type=='brand'] | order(name asc)`);
+// Fetch all brands, ordered by title
+const BRANDS_QUERY = defineQuery(`*[_type=='brand']{
+  _id,
+  title,
+  slug,
+  description,
+  image
+} | order(title asc)`);
 
 // Fetch latest blog marked with isLatest=true, with categories
 const LATEST_BLOG_QUERY = defineQuery(
@@ -33,16 +39,6 @@ const BRAND_QUERY = defineQuery(
   }`
 );
 
-// Fetch orders for a specific user, ordered by orderDate descending
-const MY_ORDERS_QUERY = defineQuery(
-  `*[_type == 'order' && clerkUserId == $userId] | order(orderDate desc){
-    ...,
-    products[]{
-      ...,
-      product->
-    }
-  }`
-);
 
 // Fetch all blogs with a limit ($quantity), ordered by published date
 const GET_ALL_BLOG = defineQuery(
@@ -115,7 +111,6 @@ export {
   DEAL_PRODUCTS,
   PRODUCT_BY_SLUG_QUERY,
   BRAND_QUERY,
-  MY_ORDERS_QUERY,
   GET_ALL_BLOG,
   SINGLE_BLOG_QUERY,
   BLOG_CATEGORIES,

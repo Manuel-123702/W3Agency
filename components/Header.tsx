@@ -8,10 +8,9 @@ import FavoriteButton from "./FavoriteButton";
 import SignIn from "./SignIn";
 import MobileMenu from "./MobileMenu";
 import { auth, currentUser } from "@clerk/nextjs/server";
-import { ClerkLoaded, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
-import { Logs, LayoutDashboard } from "lucide-react"; // Import the Dashboard icon
-import { getMyOrders } from "@/sanity/queries";
+import { LayoutDashboard } from "lucide-react";
 
 const Header = async () => {
   const { userId } = await auth();
@@ -25,15 +24,6 @@ const Header = async () => {
     console.error("Error fetching current user:", error);
   }
 
-  let orders = null;
-
-  if (userId) {
-    try {
-      orders = await getMyOrders(userId);
-    } catch (error) {
-      console.error("Error fetching orders:", error);
-    }
-  }
 
   return (
     <header className="bg-linear-to-r from-violet-200 to-blue-200 py-2 sticky top-0 z-50">
@@ -50,41 +40,25 @@ const Header = async () => {
           <CartIcon />
           <FavoriteButton />
 
-          <ClerkLoaded>
-            <SignedIn>
-              {/* --- ORDERS ICON --- */}
+          <SignedIn>
+            {/* --- CLERK USER BUTTON --- */}
+            <UserButton />
+
+            {/* --- ADMIN ICON (Placed to the RIGHT of Login/UserButton) --- */}
+            {isAdmin && (
               <Link
-                href="/orders"
+                href="/studio"
+                title="Admin Dashboard"
                 className="group relative hover:text-violet-500 hoverEffect"
               >
-                <Logs className="text-violet-600" />
-                <span
-                  className="absolute -top-1 -right-1 bg-violet-700 text-white
-                  h-3.5 w-3.5 rounded-full text-xs font-bold flex items-center justify-center"
-                >
-                  {orders?.length ? orders.length : 0}
-                </span>
+                <LayoutDashboard className="text-violet-600 w-6 h-6" />
               </Link>
+            )}
+          </SignedIn>
 
-              {/* --- CLERK USER BUTTON --- */}
-              <UserButton />
-
-              {/* --- ADMIN ICON (Placed to the RIGHT of Login/UserButton) --- */}
-              {isAdmin && (
-                <Link
-                  href="/studio"
-                  title="Admin Dashboard"
-                  className="group relative hover:text-violet-500 hoverEffect"
-                >
-                  <LayoutDashboard className="text-violet-600 w-6 h-6" />
-                </Link>
-              )}
-            </SignedIn>
-
-            <SignedOut>
-              <SignIn />
-            </SignedOut>
-          </ClerkLoaded>
+          <SignedOut>
+            <SignIn />
+          </SignedOut>
         </div>
       </Container>
     </header>

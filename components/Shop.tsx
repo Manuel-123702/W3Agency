@@ -58,7 +58,13 @@ const Shop = ({ categories, brands }: Props) => {
             && price >= $minPrice && price <= $maxPrice
           ] | order(name asc) {
             ...,
-            "categories": categories[]->title
+            "categories": categories[]->title,
+            brand->{
+              _id,
+              title,
+              slug,
+              image
+            }
           }
         `;
 
@@ -128,7 +134,7 @@ const Shop = ({ categories, brands }: Props) => {
                   </p>
                 </div>
               ) : products.length > 0 ? (
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
                   {products.map((product) => (
                     <ProductCard key={product._id} product={product} />
                   ))}

@@ -22,7 +22,13 @@ const Home = async () => {
     *[_type == "product"] | order(_createdAt desc)[0...100]{
     _id,
     name,
-    images
+    images,
+    brand->{
+      _id,
+      title,
+      slug,
+      image
+    }
   }
   `);
 
@@ -30,13 +36,13 @@ const Home = async () => {
     <Container className="bg-shop-light-pink -mt-16">
       <HomeBanner />
       <PromotionalBanners />
-      <GridProduct products={products} />
+      <GridProduct products={products || []} />
       <ProductGrid />
-      <HomeCategories categories={categories} />
-      <GridProduct products={products} />
+      <HomeCategories categories={categories || []} />
+      <GridProduct products={products || []} />
       <SecondaryBanner />
       <ShopByBrands />
-      <GridProduct products={products} />
+      <GridProduct products={products || []} />
       <PromotionalProducts />
       <Testimonials />
       <LatestBlog />

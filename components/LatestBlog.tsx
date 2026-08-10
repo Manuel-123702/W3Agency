@@ -9,6 +9,12 @@ import dayjs from "dayjs";
 
 const LatestBlog = async () => {
   const blogs = await getLatestBlogs();
+  
+  // Don't render the blog section if there are no blogs or if there's an error
+  if (!blogs || blogs.length === 0) {
+    return null;
+  }
+
   return (
     <div className="mb-10 lg:mb-0">
       <Title>Latest Blog</Title>

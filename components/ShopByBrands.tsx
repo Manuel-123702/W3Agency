@@ -5,6 +5,7 @@ import { getAllBrands } from "@/sanity/queries";
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
 import { GitCompareArrows, Headset, MessageCircleMore, ShieldCheck, Truck } from "lucide-react";
+import { BRANDS_QUERY_RESULT } from "@/sanity.types";
 
 const extraData = [
   {
@@ -31,6 +32,12 @@ const extraData = [
 
 const ShopByBrands = async () => {
   const brands = await getAllBrands();
+
+  // Don't render the brands section if there are no brands or if there's an error
+  if (!brands || !Array.isArray(brands) || brands.length === 0) {
+    return null;
+  }
+
   return (
     <div className="mb-10 lg:mb-20 bg-shop_light_bg p-5 lg:p-7 rounded-md">
       <div className="flex items-center gap-5 justify-between mb-10">
@@ -43,23 +50,28 @@ const ShopByBrands = async () => {
         </Link>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-2.5">
-        {brands?.map((brand) => (
-          <Link
-            key={brand?._id}
-            href={{ pathname: "/shop", query: { brand: brand?.slug?.current } }}
-            className="bg-white w-34 h-24 flex items-center justify-center rounded-md overflow-hidden hover:shadow-lg shadow-blue-200 hoverEffect"
-          >
-            {brand?.image && (
-              <Image
-                src={urlFor(brand?.image).url()}
-                alt="brandImage"
-                width={250}
-                height={250}
-                className="w-32 h-20 object-contain"
-              />
-            )}
-          </Link>
-        ))}
+        {brands.map((brand: BRANDS_QUERY_RESULT[number]) => {
+          console.log("Rendering brand:", brand?.title, "Has image:", !!brand?.image);
+          return (
+            <Link
+              key={brand?._id}
+              href={{ pathname: "/shop", query: { brand: brand?.slug?.current } }}
+              className="bg-white w-34 h-24 flex items-center justify-center rounded-md overflow-hidden hover:shadow-lg shadow-blue-200 hoverEffect"
+            >
+              {brand?.image ? (
+                <Image
+                  src={urlFor(brand?.image).url()}
+                  alt={brand?.title || "brandImage"}
+                  width={250}
+                  height={250}
+                  className="w-32 h-20 object-contain"
+                />
+              ) : (
+                <span className="text-xs text-gray-500">{brand?.title}</span>
+              )}
+            </Link>
+          );
+        })}
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-16 p-2 shadow-sm hover:shadow-violet-400 py-5">
         {extraData?.map((item, index) => (

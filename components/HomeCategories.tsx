@@ -6,6 +6,11 @@ import { urlFor } from "@/sanity/lib/image";
 import Link from "next/link";
 
 const HomeCategories = ({ categories }: { categories: Category[] }) => {
+  // Don't render the categories section if there are no categories
+  if (!categories || categories.length === 0) {
+    return null;
+  }
+
   return (
     <div className="bg-gradient-to-r from-white via-blue-50 to-white border border-blue-100 my-10 md:my-20 p-5 lg:p-7 rounded-2xl shadow-lg">
       <Title className="border-b pb-3">Popular Categories</Title>

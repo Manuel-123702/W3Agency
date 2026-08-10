@@ -105,7 +105,13 @@ const SearchBar = () => {
               price,
               discount,
               stock,
-              "image": images[0].asset->url
+              images,
+              brand->{
+                _id,
+                title,
+                slug,
+                image
+              }
           }[0...6]`,
           { search: `*${query}*` }, // ✅ Key must match $search
         );

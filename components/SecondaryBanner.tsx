@@ -84,7 +84,7 @@ const SecondaryBanner = () => {
   }, [sliderData.length]);
 
   return (
-    <div className="relative w-full overflow-hidden my-8">
+    <div className="relative w-full overflow-hidden my-8 rounded-[2rem]">
       <div
         className="flex transition-transform duration-700 ease-in-out"
         style={

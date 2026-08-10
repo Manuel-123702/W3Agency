@@ -19,7 +19,13 @@ const ProductGrid = () => {
   const query = `
     *[_type == "product" && variant == $variant] | order(name asc){
       ...,
-      "categories": categories[]->title
+      "categories": categories[]->title,
+      brand->{
+        _id,
+        title,
+        slug,
+        image
+      }
     }
   `;
 
@@ -54,14 +60,16 @@ const ProductGrid = () => {
           </motion.div>
         </div>
       ) : products.length ? (
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 mt-10">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-10">
           {products.map((product) => (
-            <AnimatePresence key={product._id}>
+            <AnimatePresence key={product._id} mode="popLayout">
               <motion.div
                 layout
-                initial={{ opacity: 0.2 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.3 }}
+                className="h-full"
               >
                 <ProductCard product={product} />
               </motion.div>
