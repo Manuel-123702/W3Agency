@@ -29,6 +29,19 @@ const ProductGrid = () => {
     }
   `;
 
+  const fallbackQuery = `
+    *[_type == "product"] | order(name asc){
+      ...,
+      "categories": categories[]->title,
+      brand->{
+        _id,
+        title,
+        slug,
+        image
+      }
+    }
+  `;
+
   const params = useMemo(
     () => ({ variant: selectedTab.toLowerCase() }),
     [selectedTab],
@@ -39,7 +52,14 @@ const ProductGrid = () => {
       setLoading(true);
       try {
         const response = await safeClientFetch<Product[]>(query, params);
-        setProducts(response);
+        // If no products found with variant filter, try without filter
+        if (!response || response.length === 0) {
+          console.log("No products found with variant filter, trying fallback query");
+          const fallbackResponse = await safeClientFetch<Product[]>(fallbackQuery);
+          setProducts(fallbackResponse);
+        } else {
+          setProducts(response);
+        }
       } catch (error) {
         console.log("Product fetching Error", error);
       } finally {
@@ -47,7 +67,7 @@ const ProductGrid = () => {
       }
     };
     fetchData();
-  }, [query, params]);
+  }, [query, params, fallbackQuery]);
 
   return (
     <Container className="flex flex-col lg:px-0 my-10">
