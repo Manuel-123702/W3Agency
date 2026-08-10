@@ -90,8 +90,8 @@ const SingleProductPage = async ({
           </div>
 
           <div className="flex flex-wrap items-center gap-2.5 lg:gap-3">
-            <AddToCartButton product={product} />
-            <FavoriteButton product={product} />
+            <AddToCartButton product={product as any} />
+            <FavoriteButton product={product as any} />
             <a
               href={buildWhatsAppUrl({
                 message: `Hello! I want to know more about ${product?.name} and place an order through WhatsApp.`,
@@ -105,7 +105,7 @@ const SingleProductPage = async ({
             </a>
           </div>
 
-          <ProductCharacteristics product={product} />
+          <ProductCharacteristics product={product as any} />
 
           <div className="flex flex-wrap items-center justify-between gap-2.5 border-b border-gray-200 py-5 -mt-2">
             <div className="flex items-center gap-2 text-sm hover:text-red-600 hoverEffect">
